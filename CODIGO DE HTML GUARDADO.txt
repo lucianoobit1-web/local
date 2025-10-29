@@ -1,0 +1,3413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Empresa Web</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- INICIO: LIBRERÍAS PARA GENERAR PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <!-- FIN: LIBRERÍAS PARA GENERAR PDF -->
+    <style>
+    /* Estilo personalizado para la fuente Inter */
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f0f2f5; /* Fondo claro */
+        padding: 0;
+        transition: padding 0.3s ease-in-out;
+    }
+
+    /* Estilo para centrar el frame de login */
+    body:has(#loginFrame.active) {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 1rem;
+    }
+    
+    /* Paleta de Verdes */
+    :root {
+        --color-primary-light: #D4EDDA; /* Verde muy claro */
+        --color-primary-base: #4b6624;
+        --color-primary-dark: #3f551f;
+        --color-primary-accent: #66BB6A; /* Verde acento */
+        --color-text-dark: #212121; /* Texto oscuro */
+        --color-text-light: #FFFFFF; /* Texto claro */
+        --color-danger: #EF5350; /* Rojo para acciones peligrosas */
+        --color-danger-dark: #D32F2F;
+        --color-secondary: #9E9E9E; /* Gris para acciones secundarias */
+        --color-secondary-dark: #757575;
+    }
+
+    /* --- INICIO: ESTILOS MODIFICADOS PARA EL SIDEBAR --- */
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 260px;
+        height: 100vh;
+        background-image: url('thumb-1920-378185.jpg'); /* Establece la imagen de fondo */
+        color: black;
+        display: flex;
+        flex-direction: column;
+        z-index: 500;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+    .sidebar.visible {
+        transform: translateX(0);
+    }
+    .sidebar-header {
+        text-align: center;
+        padding: 1.5rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-logo {
+        max-width: 120px; /* Logo más grande */
+        margin: 0 auto 0.75rem;
+        /* Se eliminó el borde y el radio */
+    }
+    .sidebar-header h3 {
+        font-weight: 600;
+        font-size: 1.25rem;
+        color: var(--color-primary-light);
+    }
+    .sidebar-link {
+        display: flex; /* Para alinear icono y texto */
+        align-items: center; /* Centrar verticalmente */
+        gap: 0.85rem; /* Espacio entre icono y texto */
+        padding: 1rem 1.5rem;
+        color: #000;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.2s, color 0.2s, padding-left 0.2s;
+        border-left: 4px solid transparent;
+        font-size: 1rem;
+    }
+    .sidebar-link:hover {
+        background-color: var(--color-primary-base); /* Resaltado en verde */
+        color: white;
+    }
+    .sidebar-link.active {
+        background-color: var(--color-primary-base); /* Resaltado en verde */
+        color: white;
+        font-weight: 700;
+        border-left-color: var(--color-primary-accent);
+    }
+    .sidebar-icon {
+        width: 1.5rem; /* Tamaño del icono */
+        height: 1.5rem; /* Tamaño del icono */
+        flex-shrink: 0; /* Evita que el icono se encoja */
+    }
+    .sidebar-logout {
+        margin-top: auto;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    #appContainer.sidebar-active {
+        margin-left: 260px;
+        width: calc(100% - 260px);
+        max-width: none;
+        height: 100vh;
+        overflow-y: auto;
+        border-radius: 0;
+    }
+    .volver-al-menu-btn {
+        display: none !important;
+    }
+    /* --- FIN: ESTILOS MODIFICADOS PARA EL SIDEBAR --- */
+
+    /* Clases para efectos de hover en botones */
+    .btn-primary {
+        background-color: var(--color-primary-base);
+        color: var(--color-text-light);
+        border-radius: 0.75rem; /* rounded-xl */
+        transition: all 0.3s ease-in-out;
+    }
+    .btn-primary:hover {
+        background-color: var(--color-primary-dark);
+        box-shadow: 0 6px 16px 0 rgba(76, 175, 80, 0.4); /* Sombra más pronunciada */
+        transform: translateY(-2px); /* Pequeño levantamiento */
+    }
+    .btn-danger {
+        background-color: var(--color-danger);
+        color: var(--color-text-light);
+        border-radius: 0.75rem; /* rounded-xl */
+        transition: all 0.3s ease-in-out;
+    }
+    .btn-danger:hover {
+        background-color: var(--color-danger-dark);
+        box-shadow: 0 6px 16px 0 rgba(239, 83, 80, 0.4);
+        transform: translateY(-2px);
+    }
+    .btn-secondary {
+        background-color: var(--color-secondary);
+        color: var(--color-text-light);
+        border-radius: 0.75rem; /* rounded-xl */
+        transition: all 0.3s ease-in-out;
+    }
+    .btn-secondary:hover {
+        background-color: var(--color-secondary-dark);
+        box-shadow: 0 6px 16px 0 rgba(158, 158, 158, 0.4);
+        transform: translateY(-2px);
+    }
+
+    /* Estilo para filas seleccionadas */
+    .selected-row {
+        background-color: var(--color-primary-light) !important; /* Verde claro para selección */
+    }
+    /* Estilos específicos para las tablas */
+    .table-header-cell {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    background-color: transparent; /* CORREGIDO: transparente para mostrar imagen de thead */
+    color: var(--color-text-dark);
+    border-bottom: 2px solid var(--color-primary-dark);
+    }
+
+
+
+    .table-cell {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #E0E0E0; /* Gris más suave */
+    }
+    .table-row:hover {
+        background-color: #F5F5F5; /* Gris muy claro al pasar el ratón */
+    }
+    /* Ocultar todos los frames por defecto */
+    .app-frame {
+        display: none;
+    }
+    .app-frame.active {
+        display: block;
+    }
+
+    /* Estilos para el modal personalizado (reemplazo de alert/confirm) */
+    .custom-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .custom-modal-overlay.show {
+        opacity: 1;
+        visibility: visible;
+    }
+    .custom-modal-content {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 16px; /* Más redondeado */
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); /* Sombra más profunda */
+        text-align: center;
+        max-width: 450px; /* Un poco más ancho */
+        width: 90%;
+        transform: translateY(-30px); /* Más desplazamiento inicial */
+        transition: transform 0.3s ease;
+    }
+    .custom-modal-overlay.show .custom-modal-content {
+        transform: translateY(0);
+    }
+    .custom-modal-content h3 {
+        font-size: 1.75rem; /* Texto más grande */
+        font-weight: 700; /* Extra bold */
+        color: var(--color-primary-dark); /* Título en verde oscuro */
+        margin-bottom: 1rem;
+    }
+    .custom-modal-content p {
+        font-size: 1.1rem; /* Texto de mensaje más grande */
+        color: #424242; /* Gris oscuro para el texto */
+        margin-bottom: 1.5rem;
+        white-space: pre-wrap; /* Permite saltos de línea */
+    }
+    .custom-modal-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+    .custom-modal-buttons button {
+        padding: 0.85rem 1.75rem; /* Más padding */
+        border-radius: 10px; /* Más redondeado */
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .custom-modal-buttons .confirm-btn {
+        background-color: var(--color-primary-base);
+        color: white;
+    }
+    .custom-modal-buttons .confirm-btn:hover {
+        background-color: var(--color-primary-dark);
+        box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+        transform: translateY(-1px);
+    }
+    .custom-modal-buttons .cancel-btn {
+        background-color: var(--color-secondary);
+        color: white;
+    }
+    .custom-modal-buttons .cancel-btn:hover {
+        background-color: var(--color-secondary-dark);
+        box-shadow: 0 4px 10px rgba(158, 158, 158, 0.3);
+        transform: translateY(-1px);
+    }
+
+    /* 1. MODIFICACION: Botones de la sección facturación usan el verde #4b6624 */
+    #facturacionAddBtn,
+    #facturacionCobradoBtn,
+    #facturacionEditarBtn,
+    #facturacionEliminarBtn {
+        background-color: #4b6624 !important; /* ¡Importante! para asegurar que se sobrescribe */
+        border-color: #4b6624 !important;
+    }
+
+    /* Opcional: ajustar el hover para que también use una variación de este nuevo verde */
+    #facturacionAddBtn:hover,
+    #facturacionCobradoBtn:hover,
+    #facturacionEditarBtn:hover,
+    #facturacionEliminarBtn:hover {
+        background-color: #3f551f !important; /* Un verde un poco más oscuro para el hover */
+        box-shadow: 0 6px 16px 0 rgba(75, 102, 36, 0.4) !important;
+    }
+
+    /* 2. MODIFICACION: "Total Facturado", "Total Cobrado", etc. en letra negra y fuente Helvetica */
+    #facturacionTotalFacturado,
+    #facturacionTotalCobrado,
+    #facturacionTotalPendienteArrastre {
+        color: #000000 !important; /* Negro */
+        font-family: Helvetica, Arial, sans-serif !important; /* Helvetica, con alternativas */
+    }
+
+    #facturacionTableBody td,
+    #ingresosEgresosTableBody td {
+    text-align: center !important;
+    }
+    /* MODIFICACIÓN: Alineación a la izquierda para las celdas del cuerpo de la tabla de Inventario */
+    #inventarioTableBody td {
+        text-align: left !important;
+    }
+    #listaPreciosTableBody td { /* New: Centered text for Lista de Precios table cells */
+        text-align: left !important;
+    }
+    #listaPreciosTableBody td:nth-child(2) {
+    text-align: left !important;
+    }
+    #gastosTableBody td {
+    text-align: center !important;
+    }
+
+    /* Estilos de botones de menú actualizados para coherencia */
+    .menu-button {
+        background-color: var(--color-primary-base); /* Verde principal */
+        color: white;
+        border-radius: 0.75rem; /* rounded-xl */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+        transition: all 0.2s ease-in-out;
+        width: 100%; /* Ocupar todo el ancho de la columna de la grilla */
+        padding: 1rem 1.5rem; /* py-4 px-6 equivalent */
+        font-size: 1.125rem; /* text-lg equivalent */
+        font-weight: 600; /* font-semibold equivalent */
+        text-align: center;
+    }
+    .menu-button:hover {
+        background-color: var(--color-primary-dark); /* Verde más oscuro al pasar el ratón */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada al pasar el ratón */
+        transform: translateY(-2px); /* Ligero levantamiento */
+    }
+    .menu-button:active {
+        transform: translateY(0); /* Efecto de presión */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Inventario specific styles for expand/collapse */
+    .toggle-icon {
+        cursor: pointer;
+        margin-right: 8px;
+        display: inline-block; /* To allow margin-right and vertical alignment */
+        width: 1em; /* Ensure consistent width */
+        text-align: center;
+    }
+    /* Indentation for hierarchical display */
+    .indent-level-0 { padding-left: 0.75rem; } /* Default padding for all cells */
+    .indent-level-1 { padding-left: 1.5rem; } /* For boxes */
+    .indent-level-2 { padding-left: 3rem; }  /* For items */
+
+    /* Ensure the description cell can contain the icon and text */
+    .table-cell-description {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem; /* Apply base padding here */
+    }
+</style>
+</head>
+<body class="bg-gradient-to-br from-green-50 to-green-100 p-4 min-h-screen">
+
+    <div id="sidebar" class="sidebar">
+        </div>
+    <div id="customModalOverlay" class="custom-modal-overlay">
+        <div class="custom-modal-content">
+            <h3 id="modalTitle"></h3>
+            <p id="modalMessage"></p>
+            <div id="modalInputContainer" class="mb-4 hidden">
+                <input type="text" id="modalInput" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-400 focus:border-green-400 text-gray-700" />
+            </div>
+            <div class="custom-modal-buttons">
+                <button id="modalConfirmBtn" class="confirm-btn">Aceptar</button>
+                <button id="modalCancelBtn" class="cancel-btn hidden">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="appContainer" class="bg-white p-8 rounded-3xl shadow-2xl max-w-6xl w-full border border-gray-100">
+
+        <!-- INICIO FRAME: Nuevo frame para la pantalla de inicio -->
+        <div id="inicioFrame" class="app-frame" style="height: 85vh; background-image: url('thumb-1920-378185.jpg'); background-size: cover; background-position: center; border-radius: 1.5rem;">
+            <!-- Este frame solo muestra la imagen de fondo -->
+        </div>
+
+        <div id="loginFrame" class="app-frame active" style="background-image: url('thumb-1920-378185.jpg'); background-size: cover; background-position: center; border-radius: 1.5rem;">
+
+            <div class="flex flex-col items-center justify-center min-h-[500px] bg-transparent bg-opacity-50 p-8 rounded-3xl"> <img src="logo_empresa.png" alt="Logo de la Empresa" class="mb-8 rounded-lg shadow-md" onerror="this.onerror=null;this.src='https://placehold.co/200x100/cccccc/ffffff?text=Logo';">
+                <h1 class="text-4xl font-bold text-black mb-8 text-center">Iniciar Sesión</h1> <div class="mb-5 w-72">
+                    <label for="loginUsername" class="block text-black text-base font-medium mb-2">Usuario:</label> <input type="text" id="loginUsername" placeholder="" class="shadow-sm appearance-none border border-gray-300 rounded-xl w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all duration-300 ease-in-out placeholder-gray-500"> </div>
+
+                <div class="mb-7 w-72">
+                    <label for="loginPassword" class="block text-black text-base font-medium mb-2">Contraseña:</label> <input type="password" id="loginPassword" placeholder="" class="shadow-sm appearance-none border border-gray-300 rounded-xl w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all duration-300 ease-in-out placeholder-gray-500"> </div>
+
+                <button id="loginBtn" style="background-color: #546e24;" class="w-72 hover:brightness-110 text-white font-semibold py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#546e24] focus:ring-opacity-75 transition-all duration-300 ease-in-out shadow-md">
+    Iniciar Sesión
+</button>
+
+            </div>
+        </div>
+
+        <div id="menuFrame" class="app-frame hidden p-8 min-h-screen" style="background-color: #111827;">
+
+            <div class="flex justify-center mb-10">
+                <img src="logo_empresa.png" alt="Logo de la Empresa" class="h-24" onerror="this.onerror=null;this.src='https://placehold.co/200x100/cccccc/ffffff?text=Logo';">
+            </div>
+
+            <div id="menuButtons" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                </div>
+            <div class="text-center mt-10">
+                <button id="logoutBtn" class="px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl transition-all duration-300 ease-in-out shadow-md">
+                    Cerrar Sesión
+                </button>
+            </div>
+        </div>
+
+        <div id="gastosFrame" class="app-frame">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="APP.showFrame('menuFrame')" class="px-5 py-2.5 rounded-xl text-base transition-all btn-secondary shadow-sm volver-al-menu-btn">
+                    Volver al Menú
+                </button>
+                <h1 class="text-3xl font-bold text-gray-800 text-center flex-grow">Gestión de Gastos</h1>
+                <img src="logo_empresa.png" alt="Logo de la Empresa" class="h-8 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/100x40/cccccc/ffffff?text=Logo';">
+
+            </div>
+
+            <div class="flex items-center justify-center mb-8 gap-6 p-4 rounded-xl shadow-sm" style="background-image: url('fondoteclas.jpg'); background-size: cover; background-position: center;">
+                <label for="gastosMonthSelector" class="mr-4 text-gray-700 font-medium text-lg">Mes:</label>
+                <select id="gastosMonthSelector" class="form-select rounded-lg border border-gray-300 py-2.5 px-4 bg-white text-gray-700 focus:ring-green-400 focus:border-green-400 shadow-sm">
+                    </select>
+                <!-- Nuevo selector de año para Gastos -->
+                <label for="gastosYearSelector" class="text-gray-700 font-medium text-lg">Año:</label>
+                <select id="gastosYearSelector" class="form-select rounded-lg border border-gray-300 py-2.5 px-4 bg-white text-gray-700 focus:ring-green-400 focus:border-green-400 shadow-sm">
+                </select>
+            </div>
+
+            <div class="text-center mb-8 p-4 rounded-xl shadow-md" style="background-image: url('fondoteclas.jpg'); background-size: cover; background-position: center;">
+
+                <p id="gastosTotalesLabel" class="text-lg font-bold text-black" style="font-family: Helvetica, Arial, sans-serif;">Totales: $0.00 | Pagado: $0.00 | Pendiente: $0.00</p>
+
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                <button id="gastosAddConceptoBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-primary shadow-md">Agregar Concepto</button>
+                <button id="gastosEliminarConceptoBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-primary shadow-md">Eliminar Concepto</button>
+                <button id="gastosEliminarMontosBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-primary shadow-md">Eliminar Todos los Montos</button>
+            </div>
+
+            <div class="overflow-x-auto bg-white rounded-xl shadow-lg border border-gray-200">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead style="background-color: #dbf8a5;"></thead>
+                        <tr>
+                            <th class="table-header-cell rounded-tl-xl text-center">Concepto</th>
+                            <th class="table-header-cell text-center">Monto</th>
+                            <th class="table-header-cell text-center">Estado</th>
+                            <th class="table-header-cell text-center">Fecha Pago</th>
+                            <th class="table-header-cell rounded-tr-xl text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gastosTableBody" class="divide-y divide-gray-200">
+                        </tbody>
+                </table>
+                <div id="gastosNoConceptosMessage" class="p-6 text-center text-gray-600 hidden">
+                    No hay conceptos de gastos para el mes seleccionado.
+                </div>
+            </div>
+        </div>
+
+        <div id="facturacionFrame" class="app-frame">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="APP.showFrame('menuFrame')" class="px-5 py-2.5 rounded-xl text-base transition-all btn-secondary shadow-sm volver-al-menu-btn">
+                    Volver al Menú
+                </button>
+                <h1 class="text-3xl font-bold text-gray-800 text-center flex-grow">Gestión de Facturación</h1>
+                <img src="logo_empresa.png" alt="Logo de la Empresa" class="h-8 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/100x40/cccccc/ffffff?text=Logo';">
+            </div>
+
+            <div class="flex items-center justify-center mb-8 gap-6 p-4 rounded-xl shadow-sm" style="background-image: url('fondoteclas.jpg'); background-size: cover; background-position: center;">
+
+                <label for="facturacionMonthSelector" class="text-gray-700 font-medium text-lg">Mes:</label>
+                <select id="facturacionMonthSelector" class="form-select rounded-lg border border-gray-300 py-2.5 px-4 bg-white text-gray-700 focus:ring-green-400 focus:border-green-400 shadow-sm">
+                    </select>
+                <label for="facturacionYearSelector" class="text-gray-700 font-medium text-lg">Año:</label>
+                <select id="facturacionYearSelector" class="form-select rounded-lg border border-gray-300 py-2.5 px-4 bg-white text-gray-700 focus:ring-green-400 focus:border-green-400 shadow-sm">
+                    </select>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-6 mb-8 p-4 rounded-xl shadow-md" style="background-image: url('fondoteclas.jpg'); background-size: cover; background-position: center;">
+
+                <p id="facturacionTotalFacturado" class="text-lg font-bold text-green-800">Total Facturado: $0.00</p>
+                <p id="facturacionTotalCobrado" class="text-lg font-bold text-green-800">Total Cobrado: $0.00</p>
+                <p id="facturacionTotalPendienteArrastre" class="text-lg font-bold text-green-800">Total Pendiente : $0.00</p>
+            </div>
+
+    
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 p-6 border border-gray-300 rounded-xl shadow-sm" style="background-color: #dbf8a5;">
+
+                <div>
+                    <label for="facturaNInput" class="block text-gray-700 text-sm font-medium mb-1">N° de Factura:</label>
+                    <input type="text" id="facturaNInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+                </div>
+                <div>
+                    <label for="facturaClienteInput" class="block text-gray-700 text-sm font-medium mb-1">Cliente:</label>
+                    <input type="text" id="facturaClienteInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+                </div>
+                <div>
+                    <label for="facturaImporteInput" class="block text-gray-700 text-sm font-medium mb-1">Importe C/I:</label>
+                    <input type="number" id="facturaImporteInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+                </div>
+                <div>
+                    <label for="facturaObservacionInput" class="block text-gray-700 text-sm font-medium mb-1">Observación:</label>
+                    <input type="text" id="facturaObservacionInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+                </div>
+                <div>
+                    <label for="facturaRubroInput" class="block text-gray-700 text-sm font-medium mb-1">Rubro:</label>
+                    <input type="text" id="facturaRubroInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <button id="facturacionAddBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-primary shadow-md">Agregar Factura</button>
+                <button id="facturacionCobradoBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-primary shadow-md">Cobrado/Cancelar</button>
+                <button id="facturacionEditarBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-primary shadow-md">Editar</button>
+                <button id="facturacionEliminarBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-primary shadow-md">Eliminar Factura</button>
+            </div>
+
+            <div class="overflow-x-auto bg-white rounded-xl shadow-lg border border-gray-200">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead style="background-color: #dbf8a5;">
+                        <tr>
+                            <th class="table-header-cell rounded-tl-xl text-center">N° Factura</th>
+                            <th class="table-header-cell text-center">Cliente</th>
+                            <th class="table-header-cell text-center">Importe</th>
+                            <th class="table-header-cell text-center">Fec. Emisión</th>
+                            <th class="table-header-cell text-center">Estado</th>
+                            <th class="table-header-cell rounded-tr-xl text-center">Fec. Pago</th>
+                        </tr>
+                    </thead>
+                    <tbody id="facturacionTableBody" class="divide-y divide-gray-200">
+                        </tbody>
+                </table>
+                <div id="facturacionNoFacturasMessage" class="p-6 text-center text-gray-600 hidden">
+                    No hay facturas para el mes y año seleccionados.
+                </div>
+            </div>
+        </div>
+
+        <div id="ingresosEgresosFrame" class="app-frame">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="APP.showFrame('menuFrame')" class="px-5 py-2.5 rounded-xl text-base transition-all btn-secondary shadow-sm volver-al-menu-btn">
+                    Volver al Menú
+                </button>
+                <h1 class="text-3xl font-bold text-gray-800 text-center flex-grow">Gestión de Ingresos/Egresos</h1>
+                <img src="logo_empresa.png" alt="Logo de la Empresa" class="h-8 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/100x40/cccccc/ffffff?text=Logo';">
+
+            </div>
+
+            <div class="flex items-center justify-center mb-8 gap-6 p-4 rounded-xl shadow-sm" style="background-image: url('fondoteclas.jpg'); background-size: cover; background-position: center;">
+                <label for="ingresosEgresosMonthSelector" class="mr-4 text-gray-700 font-medium text-lg">Mes:</label>
+                <select id="ingresosEgresosMonthSelector" class="form-select rounded-lg border border-gray-300 py-2.5 px-4 bg-white text-gray-700 focus:ring-green-400 focus:border-green-400 shadow-sm">
+                    </select>
+                <!-- Nuevo selector de año para Ingresos/Egresos -->
+                <label for="ingresosEgresosYearSelector" class="text-gray-700 font-medium text-lg">Año:</label>
+                <select id="ingresosEgresosYearSelector" class="form-select rounded-lg border border-gray-300 py-2.5 px-4 bg-white text-gray-700 focus:ring-green-400 focus:border-green-400 shadow-sm">
+                </select>
+            </div>
+
+            <div class="text-center mb-8 p-4 rounded-xl shadow-md" style="background-image: url('fondoteclas.jpg'); background-size: cover; background-position: center;">
+
+                <p id="ingresosEgresosBalanceLabel" class="text-lg font-bold text-black" style="font-family: Helvetica, Arial, sans-serif;">Balance Actual: $0.00</p>
+
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 p-6 border border-gray-300 rounded-xl shadow-sm" style="background-color: #dbf8a5;">
+                <div>
+                    <label for="ingresosEgresosRazonSocialInput" class="block text-gray-700 text-sm font-medium mb-1">Razón Social:</label>
+                    <input type="text" id="ingresosEgresosRazonSocialInput" placeholder="Nombre o descripción" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+                </div>
+                <div>
+                    <label for="ingresosEgresosConceptoTipoSelector" class="block text-gray-700 text-sm font-medium mb-1">Concepto:</label>
+                    <select id="ingresosEgresosConceptoTipoSelector" class="w-full p-2.5 border border-gray-300 rounded-md bg-white text-gray-700 focus:ring-green-400 focus:border-green-400">
+                        <option value="Ingreso">Ingreso</option>
+                        <option value="Egreso">Egreso</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="ingresosEgresosImporteInput" class="block text-gray-700 text-sm font-medium mb-1">Importe:</label>
+                    <input type="number" id="ingresosEgresosImporteInput" placeholder="Ej: 1500.50" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+                </div>
+                <div>
+                    <label for="ingresosEgresosFechaInput" class="block text-gray-700 text-sm font-medium mb-1">Fecha (DD/MM/AAAA):</label>
+                    <input type="text" id="ingresosEgresosFechaInput" placeholder="DD/MM/AAAA" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                <button id="ingresosEgresosAddBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-primary shadow-md">
+                    Agregar Movimiento
+                </button>
+                <button id="ingresosEgresosEditBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-primary shadow-md">
+                    Editar Seleccionado
+                </button>
+                <button id="ingresosEgresosDeleteBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-danger shadow-md">
+                    Eliminar Seleccionado
+                </button>
+            </div>
+
+            <div class="overflow-x-auto bg-white rounded-xl shadow-lg border border-gray-200">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead style="background-color: #dbf8a5;">                        <tr>
+                            <th class="table-header-cell text-center rounded-tl-xl">Razón Social</th>
+                            <th class="table-header-cell text-center">Concepto</th>
+                            <th class="table-header-cell text-center">Importe</th>
+                            <th class="table-header-cell text-center rounded-tr-xl text center">Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ingresosEgresosTableBody" class="divide-y divide-gray-200">
+                        </tbody>
+                </table>
+                <div id="ingresosEgresosNoMovementsMessage" class="p-6 text-center text-gray-600 hidden">
+                    No hay movimientos para el mes seleccionado.
+                </div>
+            </div>
+        </div>
+
+        <div id="listaPreciosFrame" class="app-frame">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="APP.showFrame('menuFrame')" class="px-5 py-2.5 rounded-xl text-base transition-all btn-secondary shadow-sm volver-al-menu-btn">
+                    Volver al Menú
+                </button>
+                <h1 id="listaPreciosTitle" class="text-3xl font-bold text-gray-800 text-center flex-grow">Lista de Precios</h1>
+                <img src="logo_empresa.png" alt="Logo de la Empresa" class="h-8 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/100x40/cccccc/ffffff?text=Logo';">
+
+            </div>
+            
+            <!-- INICIO: Selectores de Mes y Año -->
+            <div class="flex items-center justify-center mb-8 gap-6 p-4 rounded-xl shadow-sm" style="background-image: url('fondoteclas.jpg'); background-size: cover; background-position: center;">
+                <label for="listaPreciosMonthSelector" class="text-gray-700 font-medium text-lg">Mes:</label>
+                <select id="listaPreciosMonthSelector" class="form-select rounded-lg border border-gray-300 py-2.5 px-4 bg-white text-gray-700 focus:ring-green-400 focus:border-green-400 shadow-sm">
+                </select>
+                <label for="listaPreciosYearSelector" class="text-gray-700 font-medium text-lg">Año:</label>
+                <select id="listaPreciosYearSelector" class="form-select rounded-lg border border-gray-300 py-2.5 px-4 bg-white text-gray-700 focus:ring-green-400 focus:border-green-400 shadow-sm">
+                </select>
+            </div>
+            <!-- FIN: Selectores de Mes y Año -->
+
+
+            <div class="flex flex-col md:flex-row gap-6 mb-8">
+                <div class="flex-1">
+                  <label for="listaPreciosConceptoSelector" class="block text-gray-700 text-sm font-medium mb-1">Filtrar por Concepto:</label>
+                  <select id="listaPreciosConceptoSelector" class="w-full p-2.5 border border-gray-300 rounded-md bg-white text-gray-700 focus:ring-green-400 focus:border-green-400">
+                    <option value="">Mostrar todo</option>
+                  </select>
+                </div>
+                <div class="flex-1">
+                  <label for="listaPreciosTituloSelector" class="block text-gray-700 text-sm font-medium mb-1">Filtrar por Título:</label>
+                  <select id="listaPreciosTituloSelector" class="w-full p-2.5 border border-gray-300 rounded-md bg-white text-gray-700 focus:ring-green-400 focus:border-green-400">
+                    <option value="">Mostrar todo</option>
+                  </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <button id="listaPreciosAddBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-primary shadow-md">Agregar</button>
+                <button id="listaPreciosEditBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-primary shadow-md">Editar</button>
+                <button id="listaPreciosDeleteBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-danger shadow-md">Eliminar</button>
+                <button id="listaPreciosPorcentajeBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-primary shadow-md">% Sumar a Precios</button>
+                <button id="listaPreciosPDFBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-primary shadow-md">Generar PDF</button>
+            </div>
+
+            <div class="overflow-x-auto bg-white rounded-xl shadow-lg border border-gray-200">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead style="background-color: #dbf8a5;">                        <tr>
+                            <th class="table-header-cell rounded-tl-xl text-left">Código</th>
+                            <th class="table-header-cell text-left">Descripción</th>
+                            <th class="table-header-cell rounded-tr-xl text-left">Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaPreciosTableBody" class="divide-y divide-gray-200">
+                        </tbody>
+                </table>
+                <div id="listaPreciosNoItemsMessage" class="p-6 text-center text-gray-600 hidden">
+                    No hay ítems en la lista de precios para el mes seleccionado.
+                </div>
+            </div>
+            <p class="text-sm italic text-gray-600 mt-6 text-center">Los precios no incluyen el IVA 21%</p>
+        </div>
+
+        <!-- INICIO: NUEVO MODAL específico para AGREGAR en Lista de Precios -->
+        <div id="listaPreciosAddModal" class="custom-modal-overlay">
+            <div class="custom-modal-content">
+                <h3 id="listaPreciosAddModalTitle">Agregar Elemento</h3>
+                <div class="mb-4">
+                    <label for="listaPreciosAddTipoSelect" class="block text-gray-700 text-sm font-medium mb-1">Tipo de Elemento:</label>
+                    <select id="listaPreciosAddTipoSelect" class="w-full p-2.5 border border-gray-300 rounded-md bg-white text-gray-700 focus:ring-green-400 focus:border-green-400">
+                        <option value="concepto">Concepto</option>
+                        <option value="titulo">Título</option>
+                        <option value="item">Item</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="listaPreciosAddDescripcionInput" class="block text-gray-700 text-sm font-medium mb-1">Descripción:</label>
+                    <input type="text" id="listaPreciosAddDescripcionInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+                </div>
+                <div class="mb-4" id="listaPreciosAddCodigoGroup">
+                    <label for="listaPreciosAddCodigoInput" class="block text-gray-700 text-sm font-medium mb-1">Código:</label>
+                    <input type="text" id="listaPreciosAddCodigoInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+                </div>
+                <div class="mb-4" id="listaPreciosAddPrecioGroup">
+                    <label for="listaPreciosAddPrecioInput" class="block text-gray-700 text-sm font-medium mb-1">Precio:</label>
+                    <input type="number" id="listaPreciosAddPrecioInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+                </div>
+                <div class="mb-4" id="listaPreciosAddPadreGroup">
+                    <label for="listaPreciosAddPadreSelect" class="block text-gray-700 text-sm font-medium mb-1">Padre (Concepto/Título):</label>
+                    <select id="listaPreciosAddPadreSelect" class="w-full p-2.5 border border-gray-300 rounded-md bg-white text-gray-700 focus:ring-green-400 focus:border-green-400">
+                        <option value="">Seleccione un padre</option>
+                    </select>
+                </div>
+                <div class="custom-modal-buttons">
+                    <button id="listaPreciosAddModalConfirmBtn" class="confirm-btn">Guardar</button>
+                    <button id="listaPreciosAddModalCancelBtn" class="cancel-btn">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <!-- FIN: NUEVO MODAL -->
+
+        <!-- INICIO: NUEVO MODAL específico para EDITAR en Lista de Precios -->
+        <div id="listaPreciosEditModal" class="custom-modal-overlay">
+            <div class="custom-modal-content">
+                <h3 id="listaPreciosEditModalTitle">Editar Elemento</h3>
+                <!-- Campo común: Descripción -->
+                <div class="mb-4 text-left">
+                    <label for="listaPreciosEditDescripcionInput" class="block text-gray-700 text-sm font-medium mb-1">Descripción:</label>
+                    <input type="text" id="listaPreciosEditDescripcionInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+                </div>
+                <!-- Campo para Item: Código -->
+                <div class="mb-4 text-left" id="listaPreciosEditCodigoGroup">
+                    <label for="listaPreciosEditCodigoInput" class="block text-gray-700 text-sm font-medium mb-1">Código:</label>
+                    <input type="text" id="listaPreciosEditCodigoInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+                </div>
+                <!-- Campo para Item: Precio -->
+                <div class="mb-4 text-left" id="listaPreciosEditPrecioGroup">
+                    <label for="listaPreciosEditPrecioInput" class="block text-gray-700 text-sm font-medium mb-1">Precio:</label>
+                    <input type="number" id="listaPreciosEditPrecioInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+                </div>
+                <!-- Campo para Título/Item: Padre -->
+                <div class="mb-4 text-left" id="listaPreciosEditPadreGroup">
+                    <label for="listaPreciosEditPadreSelect" class="block text-gray-700 text-sm font-medium mb-1">Padre:</label>
+                    <select id="listaPreciosEditPadreSelect" class="w-full p-2.5 border border-gray-300 rounded-md bg-white text-gray-700 focus:ring-green-400 focus:border-green-400">
+                    </select>
+                </div>
+                <div class="custom-modal-buttons">
+                    <button id="listaPreciosEditModalConfirmBtn" class="confirm-btn">Guardar</button>
+                    <button id="listaPreciosEditModalCancelBtn" class="cancel-btn">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <!-- FIN: NUEVO MODAL -->
+
+
+        <div id="panelUsuariosFrame" class="app-frame">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="APP.showFrame('menuFrame')" class="px-5 py-2.5 rounded-xl text-base transition-all btn-secondary shadow-sm volver-al-menu-btn">
+                    Volver al Menú
+                </button>
+                <h1 class="text-3xl font-bold text-gray-800 text-center flex-grow">Panel de Usuarios</h1>
+                <img src="logo_empresa.png" alt="Logo de la Empresa" class="h-8 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/100x40/cccccc/ffffff?text=Logo';">
+
+            </div>
+
+            <div class="flex flex-col items-center gap-6 py-10">
+                <button id="createUserBtn" class="px-8 py-4 rounded-xl text-base font-semibold transition-all btn-primary w-72 shadow-md">Crear Usuario</button>
+                <button id="changePassBtn" class="px-8 py-4 rounded-xl text-base font-semibold transition-all btn-primary w-72 shadow-md">Modificar Contraseña</button>
+                <button id="deleteUserBtn" class="px-8 py-4 rounded-xl text-base font-semibold transition-all btn-danger w-72 shadow-md">Eliminar Cuenta</button>
+            </div>
+        </div>
+
+        <div id="remitosFrame" class="app-frame">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="APP.showFrame('menuFrame')" class="px-5 py-2.5 rounded-xl text-base transition-all btn-secondary shadow-sm volver-al-menu-btn">
+                Volver al Menú
+                </button>
+                <h1 class="text-3xl font-bold text-gray-800 text-center flex-grow">Gestión de Remitos</h1>
+                <img src="logo_empresa.png" alt="Logo de la Empresa" class="h-8 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/100x40/cccccc/ffffff?text=Logo';">
+        </div>
+             <div class="text-center text-gray-500 italic p-10">
+                Próximamente...
+            </div>
+        </div>
+
+            
+
+<div id="inventarioFrame" class="app-frame">
+  <div class="flex justify-between items-center mb-8">
+    <button onclick="APP.showFrame('menuFrame')" class="px-5 py-2.5 rounded-xl text-base transition-all btn-secondary shadow-sm volver-al-menu-btn">
+      Volver al Menú
+    </button>
+    <h1 class="text-3xl font-bold text-gray-800 text-center flex-grow">Gestión de Inventario</h1>
+    <img src="logo_empresa.png" alt="Logo de la Empresa" class="h-8 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/100x40/cccccc/ffffff?text=Logo';">
+  </div>
+  <div class="flex flex-col md:flex-row gap-6 mb-8">
+    <div class="flex-1">
+      <label for="inventarioClientSelector" class="block text-gray-700 text-sm font-medium mb-1">Filtrar por Cliente:</label>
+      <select id="inventarioClientSelector" class="w-full p-2.5 border border-gray-300 rounded-md bg-white text-gray-700 focus:ring-green-400 focus:border-green-400">
+        <option value="">Mostrar todo</option>
+      </select>
+    </div>
+    <div class="flex-1">
+      <label for="inventarioBoxSelector" class="block text-gray-700 text-sm font-medium mb-1">Filtrar por Caja:</label>
+      <select id="inventarioBoxSelector" class="w-full p-2.5 border border-gray-300 rounded-md bg-white text-gray-700 focus:ring-green-400 focus:border-green-400">
+        <option value="">Mostrar todo</option>
+      </select>
+    </div>
+    <div class="flex-1">
+      <label for="inventarioItemSearchInput" class="block text-gray-700 text-sm font-medium mb-1">Buscar Item:</label>
+      <input type="text" id="inventarioItemSearchInput" placeholder="Buscar por código o descripción..." class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+    <button id="inventarioAddBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-primary shadow-md">Agregar</button>
+    <button id="inventarioEditBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-primary shadow-md">Editar</button>
+    <button id="inventarioDeleteBtn" class="px-5 py-3 rounded-xl text-base font-semibold transition-all btn-danger shadow-md">Eliminar</button>
+  </div>
+
+  <div class="overflow-x-auto bg-white rounded-xl shadow-lg border border-gray-200">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead style="background-color: #dbf8a5;">        <tr>
+          <th class="table-header-cell rounded-tl-xl text-left">Descripción</th>
+          <th class="table-header-cell text-left">Código</th>
+          <th class="table-header-cell rounded-tr-xl text-left">Cantidad</th>
+        </tr>
+      </thead>
+      <tbody id="inventarioTableBody" class="divide-y divide-gray-200">
+        </tbody>
+    </table>
+    <div id="inventarioNoItemsMessage" class="p-6 text-center text-gray-600 hidden">
+      No hay elementos en el inventario para mostrar.
+    </div>
+  </div>
+</div>
+
+<!-- Modal para AGREGAR en Inventario -->
+<div id="inventarioAddEditModal" class="custom-modal-overlay">
+  <div class="custom-modal-content">
+    <h3 id="inventarioModalTitle"></h3>
+    <div class="mb-4">
+      <label for="inventarioTipoSelect" class="block text-gray-700 text-sm font-medium mb-1">Tipo de Elemento:</label>
+      <select id="inventarioTipoSelect" class="w-full p-2.5 border border-gray-300 rounded-md bg-white text-gray-700 focus:ring-green-400 focus:border-green-400">
+        <option value="cliente">Cliente</option>
+        <option value="caja">Caja</option>
+        <option value="item">Item</option>
+      </select>
+    </div>
+    <div class="mb-4">
+      <label for="inventarioDescripcionInput" class="block text-gray-700 text-sm font-medium mb-1">Descripción:</label>
+      <input type="text" id="inventarioDescripcionInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+    </div>
+    <div class="mb-4" id="inventarioCodigoGroup">
+      <label for="inventarioCodigoInput" class="block text-gray-700 text-sm font-medium mb-1">Código:</label>
+      <input type="text" id="inventarioCodigoInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+    </div>
+    <div class="mb-4" id="inventarioCantidadGroup">
+      <label for="inventarioCantidadInput" class="block text-gray-700 text-sm font-medium mb-1">Cantidad:</label>
+      <input type="number" id="inventarioCantidadInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+    </div>
+    <div class="mb-4" id="inventarioPadreGroup">
+      <label for="inventarioPadreSelect" class="block text-gray-700 text-sm font-medium mb-1">Padre (Cliente/Caja):</label>
+      <select id="inventarioPadreSelect" class="w-full p-2.5 border border-gray-300 rounded-md bg-white text-gray-700 focus:ring-green-400 focus:border-green-400">
+        <option value="">Seleccione un padre</option>
+      </select>
+    </div>
+    <div class="custom-modal-buttons">
+      <button id="inventarioModalConfirmBtn" class="confirm-btn">Guardar</button>
+      <button id="inventarioModalCancelBtn" class="cancel-btn">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- INICIO: NUEVO MODAL específico para EDITAR en Inventario -->
+<div id="inventarioEditModal" class="custom-modal-overlay">
+    <div class="custom-modal-content">
+        <h3 id="inventarioEditModalTitle">Editar Elemento</h3>
+        <!-- Campo común: Descripción -->
+        <div class="mb-4 text-left">
+            <label for="inventarioEditDescripcionInput" class="block text-gray-700 text-sm font-medium mb-1">Descripción:</label>
+            <input type="text" id="inventarioEditDescripcionInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+        </div>
+        <!-- Campo para Caja/Item: Código -->
+        <div class="mb-4 text-left" id="inventarioEditCodigoGroup">
+            <label for="inventarioEditCodigoInput" class="block text-gray-700 text-sm font-medium mb-1">Código:</label>
+            <input type="text" id="inventarioEditCodigoInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+        </div>
+        <!-- Campo para Item: Cantidad -->
+        <div class="mb-4 text-left" id="inventarioEditCantidadGroup">
+            <label for="inventarioEditCantidadInput" class="block text-gray-700 text-sm font-medium mb-1">Cantidad:</label>
+            <input type="number" id="inventarioEditCantidadInput" class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-green-400 focus:border-green-400 text-gray-700">
+        </div>
+        <!-- Campo para Caja/Item: Padre -->
+        <div class="mb-4 text-left" id="inventarioEditPadreGroup">
+            <label for="inventarioEditPadreSelect" class="block text-gray-700 text-sm font-medium mb-1">Padre:</label>
+            <select id="inventarioEditPadreSelect" class="w-full p-2.5 border border-gray-300 rounded-md bg-white text-gray-700 focus:ring-green-400 focus:border-green-400">
+            </select>
+        </div>
+        <div class="custom-modal-buttons">
+            <button id="inventarioEditModalConfirmBtn" class="confirm-btn">Guardar</button>
+            <button id="inventarioEditModalCancelBtn" class="cancel-btn">Cancelar</button>
+        </div>
+    </div>
+</div>
+<!-- FIN: NUEVO MODAL -->
+
+
+    </div>
+
+    <script>
+    // --- Custom Modal (Replacement for alert/confirm) ---
+    const modalOverlay = document.getElementById('customModalOverlay');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMessage = document.getElementById('modalMessage');
+    const modalInputContainer = document.getElementById('modalInputContainer');
+    const modalInput = document.getElementById('modalInput');
+    const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+    const modalCancelBtn = document.getElementById('modalCancelBtn');
+
+    let modalResolve; // Stores the resolve function for the Promise
+
+    function showCustomAlert(title, message) {
+        modalTitle.textContent = title;
+        modalMessage.innerHTML = message.replace(/\n/g, '<br>'); // Reemplazar saltos de línea con <br>
+        modalInputContainer.classList.add('hidden');
+        modalConfirmBtn.textContent = 'Aceptar';
+        modalCancelBtn.classList.add('hidden');
+        modalOverlay.classList.add('show');
+
+        return new Promise(resolve => {
+            modalResolve = resolve;
+            modalConfirmBtn.onclick = () => {
+                modalOverlay.classList.remove('show');
+                modalResolve(true);
+            };
+        });
+    }
+
+    function showCustomConfirm(title, message) {
+        modalTitle.textContent = title;
+        modalMessage.textContent = message;
+        modalInputContainer.classList.add('hidden');
+        modalConfirmBtn.textContent = 'Sí';
+        modalCancelBtn.textContent = 'No';
+        modalCancelBtn.classList.remove('hidden');
+        modalOverlay.classList.add('show');
+
+        return new Promise(resolve => {
+            modalResolve = resolve;
+            modalConfirmBtn.onclick = () => {
+                modalOverlay.classList.remove('show');
+                modalResolve(true);
+            };
+            modalCancelBtn.onclick = () => {
+                modalOverlay.classList.remove('show');
+                modalResolve(false);
+            };
+        });
+    }
+
+    function showCustomPrompt(title, message, defaultValue = '') {
+        modalTitle.textContent = title;
+        modalMessage.textContent = message;
+        modalInputContainer.classList.remove('hidden');
+        modalInput.value = defaultValue;
+        modalConfirmBtn.textContent = 'Aceptar';
+        modalCancelBtn.textContent = 'Cancelar';
+        modalCancelBtn.classList.remove('hidden');
+        modalOverlay.classList.add('show');
+
+        return new Promise(resolve => {
+            modalResolve = resolve;
+            modalConfirmBtn.onclick = () => {
+                modalOverlay.classList.remove('show');
+                resolve(modalInput.value);
+            };
+            modalCancelBtn.onclick = () => {
+                modalOverlay.classList.remove('show');
+                resolve(null); // Return null if cancelled
+            };
+            modalInput.focus(); // Focus the input field
+        });
+    }
+
+    // --- Global Application State and Data ---
+    const API_BASE_URL = 'http://127.0.0.1:5000/api';
+    
+    const APP = {
+        loggedInUser: null,
+        loggedInRole: null,
+        // In-memory data, will be populated from the backend
+        data: {
+            users: [],
+            facturas: [],
+            gastos: {},
+            precios: [],
+            ingresosEgresos: [],
+            inventario: [] // Initialize inventario array
+        },
+        // UI State for selections
+        selectedFacturaData: null,
+        selectedFacturaRow: null,
+        selectedMovementData: null,
+        selectedMovementRow: null,
+        selectedPriceData: null,
+        selectedPriceRow: null,
+        selectedInventarioItem: null, // New: Selected inventory item
+        selectedInventarioRow: null // New: Selected inventory row
+    };
+
+    // --- Constants ---
+    const MESES_ESPANOL = [
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+    const ANIOS = Array.from({ length: 10 }, (_, i) => String(2022 + i)); 
+
+    // --- Utility Functions ---
+    function formatDate(date) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
+    function parseDate(dateString) {
+        if (!/^\d{2}\/\d{2}\/\d{4}$/.test(dateString)) throw new Error("Invalid date format");
+        const [day, month, year] = dateString.split('/').map(Number);
+        return new Date(year, month - 1, day);
+    }
+    
+    function formatCurrency(value) {
+        try {
+            const num = parseFloat(value);
+            if (isNaN(num)) return value;
+            return `$${num.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        } catch (e) {
+            return value;
+        }
+    }
+    
+    function generateUniqueId() {
+        // This function is now generic and can be used for any new item type.
+        // It should ideally be replaced by backend-generated IDs in a real application.
+        const allItemIds = [
+            ...APP.data.precios.map(item => parseInt(item.id || 0)).filter(id => !isNaN(id)),
+            ...APP.data.inventario.map(item => parseInt(item.id || 0)).filter(id => !isNaN(id))
+        ];
+        // For facturas and ingresosEgresos, IDs are handled by backend, but if they were frontend-generated, they'd be included here.
+        const maxId = allItemIds.length > 0 ? Math.max(...allItemIds) : 0;
+        return String(maxId + 1);
+    }
+
+
+    // --- Core App Functions ---
+    APP.showFrame = function(frameId) {
+        // --- INICIO: LÓGICA MODIFICADA PARA MANEJAR EL SIDEBAR ---
+        const sidebar = document.getElementById('sidebar');
+        const appContainer = document.getElementById('appContainer');
+
+        if (frameId === 'loginFrame') {
+            sidebar.classList.remove('visible');
+            appContainer.classList.remove('sidebar-active');
+        } else {
+            sidebar.classList.add('visible');
+            appContainer.classList.add('sidebar-active');
+        }
+        // --- FIN: LÓGICA MODIFICADA ---
+
+        document.querySelectorAll('.app-frame').forEach(frame => {
+            frame.classList.remove('active');
+        });
+        const targetFrame = document.getElementById(frameId);
+        if (targetFrame) {
+            targetFrame.classList.add('active');
+        } else {
+            console.error(`Error: Frame con ID '${frameId}' no encontrado.`);
+            return; 
+        }
+
+        // --- INICIO: Resaltar enlace activo en el sidebar ---
+        document.querySelectorAll('.sidebar-link').forEach(link => {
+            link.classList.toggle('active', link.dataset.frame === frameId);
+        });
+        // --- FIN: Resaltar enlace activo en el sidebar ---
+
+        // Specific refresh logic for each frame when shown
+        if (frameId === 'gastosFrame') {
+            APP.Gastos.displayGastos(); // Now this will fetch data
+        } else if (frameId === 'facturacionFrame') {
+            APP.Facturacion.displayFacturas();
+        } else if (frameId === 'ingresosEgresosFrame') {
+            APP.IngresosEgresos.displayMovements();
+        } else if (frameId === 'listaPreciosFrame') {
+            APP.ListaPrecios.displayPriceList();
+        } else if (frameId === 'inventarioFrame') {
+            APP.Inventario.displayInventario();
+        }
+    };
+
+    APP.loadInitialData = async function() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/data`);
+            if (!response.ok) {
+                throw new Error(`Error al cargar datos: ${response.statusText}`);
+            }
+            const allData = await response.json();
+            APP.data = allData;
+            
+            if (!APP.data.inventario) APP.data.inventario = [];
+            if (!APP.data.precios) APP.data.precios = [];
+
+            // Compatibility for old price data
+            APP.data.precios.forEach(item => {
+                if(item.tipo === 'item' && item.precio !== undefined && !item.price_history) {
+                    item.price_history = [{
+                        date: '2022-01-01', // A default past date
+                        price: item.precio
+                    }];
+                }
+            });
+
+
+            APP.Sidebar.build(); // Construir el sidebar con los permisos del rol
+            APP.showFrame('inicioFrame'); // Mostrar la pantalla de inicio por defecto
+        } catch (error) {
+            console.error("Error de red o del servidor:", error);
+            await showCustomAlert("Error de Carga", "No se pudieron cargar los datos de la aplicación. Verifique que el servidor Python esté funcionando y recargue la página.");
+        }
+    };
+
+    // --- APP Modules (Connected to Backend) ---
+    
+    // --- INICIO: NUEVO MÓDULO SIDEBAR ---
+    APP.Sidebar = (function() {
+        const sidebarContainer = document.getElementById('sidebar');
+        
+        // Iconos SVG para cada sección
+        const icons = {
+            inicio: `<svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>`,
+            ingresosEgresos: `<svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>`,
+            gastos: `<svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>`,
+            facturacion: `<svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>`,
+            listaPrecios: `<svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5a2 2 0 012 2v5a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2zm0 0v11a2 2 0 002 2h5a2 2 0 002-2V5a2 2 0 00-2-2H7z"></path></svg>`,
+            inventario: `<svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>`,
+            remitos: `<svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>`,
+            panelUsuarios: `<svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21a6 6 0 00-9-5.197M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>`,
+            logout: `<svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>`
+        };
+
+        const buttonsConfig = {
+            admin: [
+                { text: "Inicio", frame: "inicioFrame", icon: icons.inicio },
+                { text: "Ingresos/Egresos", frame: "ingresosEgresosFrame", icon: icons.ingresosEgresos },
+                { text: "Gestión de Gastos", frame: "gastosFrame", icon: icons.gastos },
+                { text: "Facturación", frame: "facturacionFrame", icon: icons.facturacion },
+                { text: "Lista de Precios", frame: "listaPreciosFrame", icon: icons.listaPrecios },
+                { text: "Inventario", frame: "inventarioFrame", icon: icons.inventario },
+                { text: "Remitos", frame: "remitosFrame", icon: icons.remitos },
+                { text: "Panel de Usuarios", frame: "panelUsuariosFrame", icon: icons.panelUsuarios },
+            ],
+            limitado: [
+                { text: "Inicio", frame: "inicioFrame", icon: icons.inicio },
+                { text: "Facturación", frame: "facturacionFrame", icon: icons.facturacion },
+                { text: "Lista de Precios", frame: "listaPreciosFrame", icon: icons.listaPrecios },
+                { text: "Inventario", frame: "inventarioFrame", icon: icons.inventario },
+                { text: "Remitos", frame: "remitosFrame", icon: icons.remitos },
+            ]
+        };
+
+        function build() {
+            sidebarContainer.innerHTML = ''; // Limpiar
+            const role = APP.loggedInRole;
+            if (!role) return;
+
+            // Header
+            const header = document.createElement('div');
+            header.className = 'sidebar-header';
+            header.innerHTML = `<img src="logo_empresa.png" alt="Logo" class="sidebar-logo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/cccccc/ffffff?text=Logo';">`;
+            sidebarContainer.appendChild(header);
+
+            // Enlaces de navegación
+            buttonsConfig[role].forEach(btn => {
+                const link = document.createElement('a');
+                link.href = '#';
+                link.className = 'sidebar-link';
+                // MODIFICADO: Añadir icono y texto
+                link.innerHTML = `${btn.icon}<span>${btn.text}</span>`;
+                link.dataset.frame = btn.frame;
+                link.onclick = (e) => {
+                    e.preventDefault();
+                    APP.showFrame(btn.frame);
+                };
+                sidebarContainer.appendChild(link);
+            });
+
+            // Botón de Cerrar Sesión
+            const logoutLink = document.createElement('a');
+            logoutLink.href = '#';
+            logoutLink.className = 'sidebar-link sidebar-logout';
+            // MODIFICADO: Añadir icono y texto
+            logoutLink.innerHTML = `${icons.logout}<span>Cerrar Sesión</span>`;
+            logoutLink.onclick = (e) => {
+                e.preventDefault();
+                document.getElementById('logoutBtn').click(); // Dispara el evento del botón original
+            };
+            sidebarContainer.appendChild(logoutLink);
+        }
+        return { build };
+    })();
+    // --- FIN: NUEVO MÓDULO SIDEBAR ---
+
+    // LOGIN Module
+    APP.Login = (function() {
+        async function handleLogin() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                await showCustomAlert('Datos incompletos', 'Por favor, ingrese usuario y contraseña.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/data/users/authenticate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    APP.loggedInUser = data.user.usuario;
+                    APP.loggedInRole = data.user.rol;
+                    await APP.loadInitialData(); // Cargar datos y mostrar la primera pantalla
+                } else {
+                    const errorData = await response.json();
+                    await showCustomAlert('Error de inicio de sesión', errorData.error || 'Usuario o contraseña incorrectos.');
+                }
+            } catch (error) {
+                console.error("Error de red en login:", error);
+                await showCustomAlert("Error de Conexión", "No se pudo conectar con el servidor. Por favor, verifique que el backend esté en ejecución.");
+            }
+        }
+        return {
+            init: function() {
+                document.getElementById('loginBtn').addEventListener('click', handleLogin);
+                document.getElementById('loginUsername').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
+                document.getElementById('loginPassword').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
+            }
+        };
+    })();
+
+    // MENU Module
+    APP.Menu = (function() {
+        function handleLogout() {
+            APP.loggedInUser = null;
+            APP.loggedInRole = null;
+            APP.data = { users: [], facturas: [], gastos: {}, precios: [], ingresosEgresos: [], inventario: [] };
+            
+            // Ocultar el sidebar al cerrar sesión
+            document.getElementById('sidebar').classList.remove('visible');
+            document.getElementById('appContainer').classList.remove('sidebar-active');
+
+            APP.showFrame('loginFrame');
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        function buildButtons() {
+             // Esta función ya no es la principal para la navegación.
+        }
+
+        return { 
+            init: function() { document.getElementById('logoutBtn').addEventListener('click', handleLogout); }, 
+            buildButtons: buildButtons 
+        };
+    })();
+
+    // INVENTARIO Module
+    APP.Inventario = (function () {
+        const tableBody = document.getElementById('inventarioTableBody');
+        const noItemsMessage = document.getElementById('inventarioNoItemsMessage');
+        const clientSelector = document.getElementById('inventarioClientSelector');
+        const boxSelector = document.getElementById('inventarioBoxSelector');
+        const itemSearchInput = document.getElementById('inventarioItemSearchInput'); 
+        const addBtn = document.getElementById('inventarioAddBtn');
+        const editBtn = document.getElementById('inventarioEditBtn');
+        const deleteBtn = document.getElementById('inventarioDeleteBtn');
+
+        // Modal de Agregar
+        const addEditModal = document.getElementById('inventarioAddEditModal');
+        const modalTitle = document.getElementById('inventarioModalTitle');
+        const tipoSelect = document.getElementById('inventarioTipoSelect');
+        const descripcionInput = document.getElementById('inventarioDescripcionInput');
+        const codigoInput = document.getElementById('inventarioCodigoInput');
+        const cantidadInput = document.getElementById('inventarioCantidadInput');
+        const padreSelect = document.getElementById('inventarioPadreSelect');
+        const modalConfirmBtn = document.getElementById('inventarioModalConfirmBtn');
+        const modalCancelBtn = document.getElementById('inventarioModalCancelBtn');
+        const codigoGroup = document.getElementById('inventarioCodigoGroup');
+        const cantidadGroup = document.getElementById('inventarioCantidadGroup');
+        const padreGroup = document.getElementById('inventarioPadreGroup');
+
+        let currentAddItem = null; 
+
+        // --- INICIO MODIFICACIÓN: Función para manejar la edición con el nuevo modal ---
+        async function handleEdit(itemToEdit) {
+            // 1. Obtener referencias a los elementos del nuevo modal de edición
+            const editModal = document.getElementById('inventarioEditModal');
+            const title = document.getElementById('inventarioEditModalTitle');
+            const descInput = document.getElementById('inventarioEditDescripcionInput');
+            const codeInput = document.getElementById('inventarioEditCodigoInput');
+            const qtyInput = document.getElementById('inventarioEditCantidadInput');
+            const parentSelect = document.getElementById('inventarioEditPadreSelect');
+            const confirmBtn = document.getElementById('inventarioEditModalConfirmBtn');
+            const cancelBtn = document.getElementById('inventarioEditModalCancelBtn');
+
+            // Obtener contenedores de grupo para ocultarlos/mostrarlos
+            const codeGroup = document.getElementById('inventarioEditCodigoGroup');
+            const qtyGroup = document.getElementById('inventarioEditCantidadGroup');
+            const parentGroup = document.getElementById('inventarioEditPadreGroup');
+
+            // 2. Limpiar y reiniciar el estado del modal
+            descInput.value = '';
+            codeInput.value = '';
+            qtyInput.value = '';
+            parentSelect.innerHTML = '';
+
+            // 3. Configurar el modal según el tipo de ítem
+            title.textContent = `Editar ${itemToEdit.tipo.charAt(0).toUpperCase() + itemToEdit.tipo.slice(1)}`;
+            descInput.value = itemToEdit.descripcion;
+
+            // Ocultar/mostrar campos y poblar datos
+            if (itemToEdit.tipo === 'cliente') {
+                codeGroup.classList.add('hidden');
+                qtyGroup.classList.add('hidden');
+                parentGroup.classList.add('hidden');
+            } else if (itemToEdit.tipo === 'caja') {
+                codeGroup.classList.remove('hidden');
+                qtyGroup.classList.add('hidden');
+                parentGroup.classList.remove('hidden');
+
+                codeInput.value = itemToEdit.codigo || '';
+
+                // Poblar selector de padre (clientes)
+                parentSelect.innerHTML = '';
+                const clients = APP.data.inventario.filter(i => i.tipo === 'cliente');
+                clients.forEach(client => {
+                    const option = document.createElement('option');
+                    option.value = client.id;
+                    option.textContent = client.descripcion;
+                    parentSelect.appendChild(option);
+                });
+                parentSelect.value = itemToEdit.padre_id;
+
+            } else if (itemToEdit.tipo === 'item') {
+                codeGroup.classList.remove('hidden');
+                qtyGroup.classList.remove('hidden');
+                parentGroup.classList.remove('hidden');
+
+                codeInput.value = itemToEdit.codigo || '';
+                qtyInput.value = itemToEdit.cantidad !== undefined ? itemToEdit.cantidad : '';
+
+                // Poblar selector de padre (cajas)
+                parentSelect.innerHTML = '';
+                const boxes = APP.data.inventario.filter(i => i.tipo === 'caja');
+                boxes.forEach(box => {
+                    const option = document.createElement('option');
+                    option.value = box.id;
+                    option.textContent = box.descripcion;
+                    parentSelect.appendChild(option);
+                });
+                parentSelect.value = itemToEdit.padre_id;
+            }
+
+            // 4. Mostrar el modal
+            editModal.classList.add('show');
+
+            // 5. Manejar guardado/cancelación
+            return new Promise(resolve => {
+                confirmBtn.onclick = async () => {
+                    const updatedItem = { ...itemToEdit };
+                    updatedItem.descripcion = descInput.value.trim();
+
+                    if (itemToEdit.tipo === 'caja') {
+                        updatedItem.codigo = codeInput.value.trim();
+                        updatedItem.padre_id = parentSelect.value;
+                    } else if (itemToEdit.tipo === 'item') {
+                        updatedItem.codigo = codeInput.value.trim();
+                        updatedItem.cantidad = parseInt(qtyInput.value);
+                        updatedItem.padre_id = parentSelect.value;
+                    }
+
+                    if (!updatedItem.descripcion) {
+                        await showCustomAlert('Error', 'La descripción es obligatoria.');
+                        return;
+                    }
+                    if (itemToEdit.tipo === 'item' && (isNaN(updatedItem.cantidad) || updatedItem.cantidad < 0)) {
+                        await showCustomAlert('Error', 'La cantidad debe ser un número positivo.');
+                        return;
+                    }
+
+                    const savedItem = await saveItem(updatedItem);
+                    if (savedItem) {
+                        const index = APP.data.inventario.findIndex(i => i.id === savedItem.id);
+                        if (index !== -1) APP.data.inventario[index] = savedItem;
+
+                        editModal.classList.remove('show');
+                        await showCustomAlert('Éxito', 'Elemento editado exitosamente.');
+                        fetchData();
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                };
+
+                cancelBtn.onclick = () => {
+                    editModal.classList.remove('show');
+                    resolve(false);
+                };
+            });
+        }
+        // --- FIN MODIFICACIÓN ---
+
+        function generateInventoryId() {
+            if (!APP.data.inventario || APP.data.inventario.length === 0) return "1";
+            const maxId = APP.data.inventario.reduce((max, item) => {
+                const itemIdNum = parseInt(item.id || 0);
+                return isNaN(itemIdNum) ? max : Math.max(max, itemIdNum);
+            }, 0);
+            return String(maxId + 1);
+        }
+
+        async function fetchData() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/data/inventario`);
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error(`Backend responded with status ${response.status}: ${errorText}`);
+                    throw new Error('Error al cargar el inventario.');
+                }
+                APP.data.inventario = await response.json();
+                
+                APP.data.inventario.forEach(item => {
+                    if (item.tipo === 'cliente' || item.tipo === 'caja') {
+                        if (typeof item.isExpanded === 'undefined') {
+                            item.isExpanded = false;
+                        }
+                    }
+                });
+
+                displayInventario();
+                populateClientSelector();
+                populateBoxSelector();
+            } catch (error) {
+                console.error("Error en la función fetchData del Inventario:", error);
+                await showCustomAlert("Error de Carga", `No se pudo cargar el inventario: ${error.message}. Asegúrese de que el servidor backend esté funcionando correctamente.`);
+            }
+        }
+
+        async function saveItem(item) {
+            try {
+                const method = item.id && APP.data.inventario.some(i => i.id === item.id) ? 'PUT' : 'POST';
+                const url = item.id && method === 'PUT' ? `${API_BASE_URL}/data/inventario/${item.id}` : `${API_BASE_URL}/data/inventario`;
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(item)
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Error del servidor.');
+                return result;
+            } catch (error) {
+                console.error("Error al guardar ítem de inventario:", error);
+                await showCustomAlert("Error al Guardar", `No se pudo guardar el ítem: ${error.message}`);
+                return null;
+            }
+        }
+
+        async function deleteItem(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/data/inventario/${id}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error((await response.json()).error || 'Error al eliminar el ítem.');
+                return true;
+            } catch (error) {
+                console.error("Error al eliminar ítem de inventario:", error);
+                await showCustomAlert("Error al Eliminar", `No se pudo eliminar el ítem: ${error.message}`);
+                return false;
+            }
+        }
+
+        function populateClientSelector() {
+            const currentVal = clientSelector.value;
+            clientSelector.innerHTML = '<option value="">Mostrar todo</option>';
+            const clients = APP.data.inventario.filter(item => item.tipo === 'cliente');
+            clients.forEach(client => {
+                const option = document.createElement('option');
+                option.value = client.id;
+                option.textContent = client.descripcion;
+                clientSelector.appendChild(option);
+            });
+            clientSelector.value = currentVal;
+        }
+
+        function populateBoxSelector() {
+            const currentVal = boxSelector.value;
+            boxSelector.innerHTML = '<option value="">Mostrar todo</option>';
+            const boxes = APP.data.inventario.filter(item => item.tipo === 'caja');
+            boxes.forEach(box => {
+                const option = document.createElement('option');
+                option.value = box.id;
+                option.textContent = box.descripcion;
+                boxSelector.appendChild(option);
+            });
+            boxSelector.value = currentVal;
+        }
+        
+        function toggleExpansion(itemId) {
+            const itemToToggle = APP.data.inventario.find(item => item.id === itemId);
+            if (itemToToggle && (itemToToggle.tipo === 'cliente' || itemToToggle.tipo === 'caja')) {
+                itemToToggle.isExpanded = !itemToToggle.isExpanded;
+                displayInventario(); 
+            }
+        }
+        
+        async function showInventarioDetails(itemData) {
+            if (itemData.tipo !== 'item') {
+                return;
+            }
+
+            let cajaNombre = 'N/A';
+            if (itemData.padre_id) {
+                const caja = APP.data.inventario.find(p => p.id === itemData.padre_id && p.tipo === 'caja');
+                if (caja) {
+                    cajaNombre = caja.descripcion;
+                }
+            }
+
+            const details = `Descripción: ${itemData.descripcion || 'N/A'}\n` +
+                            `Código: ${itemData.codigo || 'N/A'}\n` +
+                            `Cantidad: ${itemData.cantidad !== undefined ? itemData.cantidad : 'N/A'}\n` +
+                            `Pertenece a la Caja: ${cajaNombre}`;
+            
+            await showCustomAlert(`Detalles del Ítem`, details);
+        }
+
+        function displayInventario() {
+            tableBody.innerHTML = '';
+            APP.selectedInventarioItem = null;
+            if (APP.selectedInventarioRow) {
+                APP.selectedInventarioRow.classList.remove('selected-row');
+                APP.selectedInventarioRow = null;
+            }
+
+            const selectedClientId = clientSelector.value;
+            const selectedBoxId = boxSelector.value;
+            const searchTerm = itemSearchInput.value.trim().toLowerCase();
+
+            const itemMap = new Map(APP.data.inventario.map(item => [item.id, { ...item, children: [] }]));
+            itemMap.forEach(item => {
+                if (item.padre_id && itemMap.has(item.padre_id)) {
+                    itemMap.get(item.padre_id).children.push(item);
+                }
+            });
+
+            let topLevelItems = [];
+
+            if (searchTerm) {
+                const matchedItems = APP.data.inventario.filter(item => 
+                    item.tipo === 'item' && 
+                    (item.descripcion.toLowerCase().includes(searchTerm) || (item.codigo && item.codigo.toLowerCase().includes(searchTerm)))
+                );
+                
+                const clientsToShow = new Map();
+
+                matchedItems.forEach(item => {
+                    const box = itemMap.get(item.padre_id);
+                    if (!box) return;
+                    const client = itemMap.get(box.padre_id);
+                    if (!client) return;
+                    
+                    if (!clientsToShow.has(client.id)) {
+                        clientsToShow.set(client.id, { ...client, children: new Map(), isExpanded: true });
+                    }
+                    const clientToShow = clientsToShow.get(client.id);
+
+                    if (!clientToShow.children.has(box.id)) {
+                        clientToShow.children.set(box.id, { ...box, children: [], isExpanded: true });
+                    }
+                    const boxToShow = clientToShow.children.get(box.id);
+                    boxToShow.children.push(item);
+                });
+
+                clientsToShow.forEach(client => {
+                    client.children = Array.from(client.children.values());
+                    topLevelItems.push(client);
+                });
+
+            } else if (selectedBoxId) {
+                const box = itemMap.get(selectedBoxId);
+                const client = box ? itemMap.get(box.padre_id) : null;
+                if (client) {
+                    const displayClient = { ...client, children: [box], isExpanded: true };
+                    box.isExpanded = true;
+                    topLevelItems = [displayClient];
+                }
+            } else if (selectedClientId) {
+                const client = itemMap.get(selectedClientId);
+                if (client) {
+                    client.isExpanded = true;
+                    topLevelItems = [client];
+                }
+            } else {
+                topLevelItems = Array.from(itemMap.values()).filter(item => !item.padre_id);
+            }
+
+            topLevelItems.sort((a, b) => a.descripcion.localeCompare(b.descripcion));
+
+            function renderItems(items, level) {
+                items.sort((a, b) => a.descripcion.localeCompare(b.descripcion));
+                items.forEach(item => {
+                    const row = tableBody.insertRow();
+                    row.className = 'table-row cursor-pointer';
+                    row.dataset.id = item.id;
+                    row.dataset.type = item.tipo;
+                    row.dataset.parentId = item.padre_id || '';
+
+                    row.addEventListener('click', (event) => {
+                        if (!event.target.classList.contains('toggle-icon')) {
+                            selectInventarioRow(row, item);
+                        }
+                    });
+                    row.addEventListener('dblclick', () => showInventarioDetails(item));
+
+                    const descCell = row.insertCell();
+                    descCell.className = `table-cell table-cell-description indent-level-${level}`;
+
+                    let descText = item.descripcion;
+                    let codeText = item.codigo || '';
+                    let qtyText = item.cantidad !== undefined ? item.cantidad : '';
+                    let rowClasses = '';
+
+                    if (item.tipo === 'cliente' || item.tipo === 'caja') {
+                        const toggleSpan = document.createElement('span');
+                        toggleSpan.className = 'toggle-icon';
+                        toggleSpan.innerHTML = item.isExpanded ? '&#9660;' : '&#9658;';
+                        toggleSpan.onclick = (event) => {
+                            event.stopPropagation();
+                            toggleExpansion(item.id);
+                        };
+                        descCell.appendChild(toggleSpan);
+                        descCell.style.fontWeight = 'bold';
+
+                        if (item.tipo === 'cliente') {
+                            descText = `📂 ${item.descripcion.toUpperCase()}`;
+                            rowClasses = 'bg-gray-100';
+                            codeText = '';
+                            qtyText = '';
+                        } else {
+                            descText = `📦 ${item.descripcion}`;
+                            rowClasses = 'bg-gray-50 italic';
+                            codeText = item.codigo || '';
+                        }
+                    } else {
+                        descText = `- ${item.descripcion}`;
+                    }
+
+                    const textSpan = document.createElement('span');
+                    textSpan.textContent = descText;
+                    descCell.appendChild(textSpan);
+
+                    row.className += ` ${rowClasses}`;
+                    row.insertCell().textContent = codeText;
+                    row.insertCell().textContent = qtyText;
+
+                    if (item.isExpanded && item.children.length > 0) {
+                        renderItems(item.children, level + 1);
+                    }
+                });
+            }
+
+            if (topLevelItems.length === 0) {
+                noItemsMessage.classList.remove('hidden');
+                return;
+            }
+            noItemsMessage.classList.add('hidden');
+
+            renderItems(topLevelItems, 0);
+        }
+
+        function selectInventarioRow(rowElement, data) {
+            if (APP.selectedInventarioRow) APP.selectedInventarioRow.classList.remove('selected-row');
+            rowElement.classList.add('selected-row');
+            APP.selectedInventarioRow = rowElement;
+            APP.selectedInventarioItem = data;
+        }
+
+        function clearAddEditModal() {
+            tipoSelect.value = 'cliente';
+            descripcionInput.value = '';
+            codigoInput.value = '';
+            cantidadInput.value = '';
+            padreSelect.innerHTML = '<option value="">Seleccione un padre</option>';
+            currentAddItem = null;
+            updateModalFieldsVisibility();
+        }
+
+        function updateModalFieldsVisibility() {
+            const selectedType = tipoSelect.value;
+            
+            codigoGroup.classList.toggle('hidden', selectedType === 'cliente');
+            
+            cantidadGroup.classList.toggle('hidden', selectedType !== 'item');
+            padreGroup.classList.toggle('hidden', selectedType === 'cliente');
+
+            padreSelect.innerHTML = '<option value="">Seleccione un padre</option>';
+            let possibleParents = [];
+            if (selectedType === 'caja') {
+                possibleParents = APP.data.inventario.filter(item => item.tipo === 'cliente');
+            } else if (selectedType === 'item') {
+                possibleParents = APP.data.inventario.filter(item => item.tipo === 'caja');
+            }
+            possibleParents.forEach(parent => {
+                const option = document.createElement('option');
+                option.value = parent.id;
+                option.textContent = parent.descripcion;
+                padreSelect.appendChild(option);
+            });
+
+            if (currentAddItem && currentAddItem.padre_id) {
+                padreSelect.value = currentAddItem.padre_id;
+            }
+        }
+
+        async function handleAdd() {
+            modalTitle.textContent = 'Agregar Elemento';
+            clearAddEditModal();
+            updateModalFieldsVisibility(); 
+
+            tipoSelect.onchange = updateModalFieldsVisibility; 
+
+            addEditModal.classList.add('show');
+
+            return new Promise(resolve => {
+                modalConfirmBtn.onclick = async () => {
+                    const item = {
+                        id: generateInventoryId(),
+                        tipo: tipoSelect.value,
+                        descripcion: descripcionInput.value.trim(),
+                        codigo: tipoSelect.value === 'cliente' ? '' : codigoInput.value.trim(),
+                        cantidad: tipoSelect.value === 'item' ? parseInt(cantidadInput.value) : undefined,
+                        padre_id: tipoSelect.value === 'cliente' ? '' : padreSelect.value
+                    };
+
+                    if (!item.descripcion) {
+                        await showCustomAlert('Error', 'La descripción es obligatoria.');
+                        return;
+                    }
+                    if (item.tipo !== 'cliente' && !item.padre_id) {
+                        await showCustomAlert('Error', `Seleccione un padre para el tipo ${item.tipo}.`);
+                        return;
+                    }
+                    if (item.tipo === 'item' && (isNaN(item.cantidad) || item.cantidad < 0)) {
+                        await showCustomAlert('Error', 'La cantidad debe ser un número positivo para un ítem.');
+                        return;
+                    }
+
+                    const duplicate = APP.data.inventario.some(existingItem =>
+                        existingItem.id !== item.id &&
+                        existingItem.descripcion.toLowerCase() === item.descripcion.toLowerCase() &&
+                        existingItem.tipo === item.tipo &&
+                        existingItem.padre_id === item.padre_id
+                    );
+                    if (duplicate) {
+                        await showCustomAlert('Error', `Ya existe un ${item.tipo} con esa descripción bajo el mismo padre.`);
+                        return;
+                    }
+                    
+                    if (item.tipo === 'cliente') {
+                        const duplicateClient = APP.data.inventario.some(existingItem =>
+                            existingItem.id !== item.id &&
+                            existingItem.tipo === 'cliente' &&
+                            existingItem.descripcion.toLowerCase() === item.descripcion.toLowerCase()
+                        );
+                        if (duplicateClient) {
+                            await showCustomAlert('Error', 'Ya existe un cliente con esa descripción.');
+                            return;
+                        }
+                    }
+
+                    const savedItem = await saveItem(item);
+                    if (savedItem) {
+                        APP.data.inventario.push(savedItem);
+                        addEditModal.classList.remove('show');
+                        await showCustomAlert('Éxito', `Elemento agregado exitosamente.`);
+                        fetchData(); 
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                };
+
+                modalCancelBtn.onclick = () => {
+                    addEditModal.classList.remove('show');
+                    resolve(false);
+                };
+            });
+        }
+
+        async function handleDelete() {
+            if (!APP.selectedInventarioItem) {
+                await showCustomAlert('Eliminar', 'Por favor, seleccioná un elemento para eliminar.');
+                return;
+            }
+
+            const confirmed = await showCustomConfirm('Eliminar', `¿Estás seguro de eliminar "${APP.selectedInventarioItem.descripcion}"? Esto también eliminará todos sus sub-elementos.`);
+            if (!confirmed) return;
+
+            const idsToDelete = new Set();
+            function collectChildren(parentId) {
+                idsToDelete.add(parentId);
+                APP.data.inventario.filter(item => item.padre_id === parentId).forEach(child => collectChildren(child.id));
+            }
+            collectChildren(APP.selectedInventarioItem.id);
+
+            let allDeleted = true;
+            for (const id of idsToDelete) {
+                const success = await deleteItem(id);
+                if (!success) {
+                    allDeleted = false;
+                    break;
+                }
+            }
+
+            if (allDeleted) {
+                APP.data.inventario = APP.data.inventario.filter(item => !idsToDelete.has(item.id));
+                await showCustomAlert('Éxito', 'Elemento(s) eliminado(s) exitosamente.');
+            } else {
+                await showCustomAlert('Error', 'Hubo un problema al eliminar algunos elementos. Por favor, recargue la página.');
+            }
+            fetchData();
+        }
+
+        return {
+            init: function() {
+                addBtn.addEventListener('click', () => {
+                    currentAddItem = null;
+                    handleAdd();
+                });
+                // --- INICIO MODIFICACIÓN: El botón de editar ahora llama a la nueva función handleEdit ---
+                editBtn.addEventListener('click', () => {
+                    if (APP.selectedInventarioItem) {
+                        handleEdit(APP.selectedInventarioItem);
+                    } else {
+                        showCustomAlert('Editar', 'Por favor, seleccioná un elemento para editar.');
+                    }
+                });
+                // --- FIN MODIFICACIÓN ---
+                deleteBtn.addEventListener('click', handleDelete);
+                
+                clientSelector.addEventListener('change', () => {
+                    boxSelector.value = '';
+                    itemSearchInput.value = '';
+                    displayInventario();
+                });
+                boxSelector.addEventListener('change', () => {
+                    clientSelector.value = '';
+                    itemSearchInput.value = '';
+                    displayInventario();
+                });
+                itemSearchInput.addEventListener('input', () => {
+                    clientSelector.value = '';
+                    boxSelector.value = '';
+                    displayInventario();
+                });
+            },
+            displayInventario: fetchData 
+        };
+    })();
+
+
+    // GASTOS Module
+    APP.Gastos = (function() {
+        const monthSelector = document.getElementById('gastosMonthSelector');
+        const yearSelector = document.getElementById('gastosYearSelector'); // Nuevo selector de año
+        const totalesLabel = document.getElementById('gastosTotalesLabel');
+        const tableBody = document.getElementById('gastosTableBody');
+        const noConceptsMessage = document.getElementById('gastosNoConceptosMessage');
+
+        function initializeSelectors() { // Modificado para incluir el año
+            monthSelector.innerHTML = '';
+            const currentMonth = new Date().getMonth();
+            MESES_ESPANOL.forEach((month, index) => {
+                const option = document.createElement('option');
+                option.value = month;
+                option.textContent = month;
+                if (index === currentMonth) option.selected = true;
+                monthSelector.appendChild(option);
+            });
+            // MODIFICADO: Añadir listener para recargar gastos al cambiar mes
+            monthSelector.addEventListener('change', displayGastos);
+
+            yearSelector.innerHTML = '';
+            const currentYear = new Date().getFullYear();
+            ANIOS.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                if (parseInt(year) === currentYear) option.selected = true;
+                yearSelector.appendChild(option);
+            });
+            // MODIFICADO: Añadir listener para recargar gastos al cambiar año
+            yearSelector.addEventListener('change', displayGastos);
+        }
+
+        async function saveMonthData(month, year, data) { // Modificado para incluir el año
+            try {
+                const response = await fetch(`${API_BASE_URL}/data/gastos/month/${month}/year/${year}`, { // Ruta modificada
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error || 'Error al guardar los gastos.');
+                }
+                return true;
+            } catch (error) {
+                console.error("Error guardando gastos:", error);
+                await showCustomAlert("Error", `No se pudieron guardar los cambios en los gastos: ${error.message}`);
+                // No recargar APP.loadInitialData() aquí, solo displayGastos
+                displayGastos(); 
+                return false;
+            }
+        }
+        
+        // MODIFICADO: displayGastos ahora es asíncrono y hace fetch
+        async function displayGastos() {
+            tableBody.innerHTML = '';
+            const selectedMonth = monthSelector.value;
+            const selectedYear = yearSelector.value;
+
+            try {
+                // Fetch the specific month's data from the backend
+                const response = await fetch(`${API_BASE_URL}/data/gastos/month/${selectedMonth}/year/${selectedYear}`);
+                if (!response.ok) {
+                    throw new Error(`Error al cargar gastos: ${response.statusText}`);
+                }
+                const currentMonthData = await response.json();
+                
+                // Update APP.data with the fetched data
+                if (!APP.data.gastos[selectedYear]) {
+                    APP.data.gastos[selectedYear] = {};
+                }
+                APP.data.gastos[selectedYear][selectedMonth] = currentMonthData;
+
+                let total = 0, totalPagado = 0, totalPendiente = 0;
+
+                if (!currentMonthData || currentMonthData.length === 0) {
+                    noConceptsMessage.classList.remove('hidden');
+                    totalesLabel.textContent = "Totales: $0.00 | Pagado: $0.00 | Pendiente: $0.00";
+                    return;
+                } 
+                noConceptsMessage.classList.add('hidden');
+
+                currentMonthData.forEach((item, idx) => {
+                    const row = tableBody.insertRow();
+                    row.className = 'table-row';
+
+                    const monto = parseFloat(item.monto || 0);
+                    const pagado = item.pagado === "si";
+
+                    if (!isNaN(monto)) {
+                        total += monto;
+                        if (pagado) totalPagado += monto;
+                        else totalPendiente += monto;
+                    }
+
+                    row.insertCell().textContent = item.concepto;
+                    row.insertCell().textContent = formatCurrency(monto);
+                    const estadoCell = row.insertCell();
+                    estadoCell.textContent = pagado ? "PAGADO" : "PENDIENTE";
+                    estadoCell.className = `${pagado ? "text-green-600" : "text-red-600"} font-bold text-center`;
+                    row.insertCell().textContent = item.fecha || "N/A";
+                    
+                    const actionsCell = row.insertCell();
+                    actionsCell.className = 'flex justify-center gap-2 p-1';
+
+                    const pagarBtn = document.createElement('button');
+                    pagarBtn.textContent = 'Pagar';
+                    pagarBtn.className = 'px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded-md text-sm';
+                    pagarBtn.onclick = () => updateGasto(idx, { pagado: "si", fecha: formatDate(new Date()) });
+                    
+                    const cancelarPagoBtn = document.createElement('button');
+                    cancelarPagoBtn.textContent = 'Cancelar';
+                    cancelarPagoBtn.className = 'px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-black rounded-md text-sm';
+                    cancelarPagoBtn.onclick = () => updateGasto(idx, { pagado: "no", fecha: "" });
+
+                    const montoBtn = document.createElement('button');
+                    montoBtn.textContent = 'Monto';
+                    montoBtn.className = 'px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md text-sm';
+                    montoBtn.onclick = () => agregarMonto(idx);
+
+                    actionsCell.appendChild(pagarBtn);
+                    actionsCell.appendChild(cancelarPagoBtn);
+                    actionsCell.appendChild(montoBtn);
+                });
+                totalesLabel.textContent = `Total: ${formatCurrency(total)} | Pagado: ${formatCurrency(totalPagado)} | Pendiente: ${formatCurrency(totalPendiente)}`;
+            } catch (error) {
+                console.error("Error al cargar y mostrar gastos:", error);
+                await showCustomAlert("Error de Carga", `No se pudieron cargar los gastos para este mes: ${error.message}.`);
+                totalesLabel.textContent = "Totales: $0.00 | Pagado: $0.00 | Pendiente: $0.00";
+                noConceptsMessage.classList.remove('hidden');
+            }
+        }
+
+        async function updateGasto(idx, updates) {
+            const selectedMonth = monthSelector.value;
+            const selectedYear = yearSelector.value;
+            // Asegúrate de que APP.data.gastos[selectedYear][selectedMonth] esté actualizado antes de modificarlo
+            // Esto es redundante si displayGastos() siempre hace fetch, pero es una buena práctica.
+            if (!APP.data.gastos[selectedYear] || !APP.data.gastos[selectedYear][selectedMonth]) {
+                await displayGastos(); // Fetch the latest data if not already present
+            }
+            Object.assign(APP.data.gastos[selectedYear][selectedMonth][idx], updates);
+            if (await saveMonthData(selectedMonth, selectedYear, APP.data.gastos[selectedYear][selectedMonth])) {
+                displayGastos(); // Refresh after save
+            }
+        }
+        
+        async function agregarMonto(idx) {
+            const selectedMonth = monthSelector.value;
+            const selectedYear = yearSelector.value;
+            const currentConcepto = APP.data.gastos[selectedYear][selectedMonth][idx].concepto;
+            const valor = await showCustomPrompt('Agregar Monto', `Ingrese el monto para ${currentConcepto}:`, APP.data.gastos[selectedYear][selectedMonth][idx].monto || '');
+            if (valor !== null) {
+                try {
+                    const valFloat = parseFloat(valor.replace(",", "."));
+                    if (isNaN(valFloat) || valFloat < 0) throw new Error("Monto inválido.");
+                    await updateGasto(idx, { monto: valFloat.toFixed(2), pagado: "no", fecha: "" });
+                } catch (e) {
+                    await showCustomAlert('Error', 'Monto inválido. Ingrese un número positivo válido.');
+                }
+            }
+        }
+        
+        async function agregarConcepto() {
+            const concepto = await showCustomPrompt('Agregar Concepto', 'Nombre del nuevo concepto:');
+            if (concepto && concepto.trim()) {
+                const selectedMonth = monthSelector.value;
+                const selectedYear = yearSelector.value;
+
+                // Fetch current data to check for duplicates and ensure we have the latest
+                await displayGastos(); // This will populate APP.data.gastos[selectedYear][selectedMonth]
+
+                if (!APP.data.gastos[selectedYear]) {
+                    APP.data.gastos[selectedYear] = {};
+                }
+                if (!APP.data.gastos[selectedYear][selectedMonth]) {
+                    APP.data.gastos[selectedYear][selectedMonth] = [];
+                }
+
+                if (APP.data.gastos[selectedYear][selectedMonth].some(item => item.concepto.toLowerCase() === concepto.trim().toLowerCase())) {
+                    await showCustomAlert('Error', 'Este concepto ya existe para este mes.');
+                    return;
+                }
+                
+                // Add the new concept to the current month's data
+                APP.data.gastos[selectedYear][selectedMonth].push({ concepto: concepto.trim(), monto: "", fecha: "", pagado: "no" });
+                
+                // Save the updated month data (backend will handle global concept update)
+                if (await saveMonthData(selectedMonth, selectedYear, APP.data.gastos[selectedYear][selectedMonth])) {
+                    // displayGastos() is called within saveMonthData's success, so no need to call it again here.
+                    await showCustomAlert('Éxito', 'Concepto agregado exitosamente.');
+                }
+            }
+        }
+
+        async function eliminarConcepto() {
+            const concepto = await showCustomPrompt('Eliminar Concepto', 'Nombre del concepto a eliminar (exacto):');
+             if (concepto && concepto.trim()) {
+                const selectedMonth = monthSelector.value;
+                const selectedYear = yearSelector.value;
+
+                // Fetch current data to ensure we have the latest
+                await displayGastos(); 
+
+                if (!APP.data.gastos[selectedYear] || !APP.data.gastos[selectedYear][selectedMonth]) {
+                    await showCustomAlert('Info', `No hay conceptos para el mes y año seleccionados.`);
+                    return;
+                }
+
+                const initialLength = APP.data.gastos[selectedYear][selectedMonth].length;
+                APP.data.gastos[selectedYear][selectedMonth] = APP.data.gastos[selectedYear][selectedMonth].filter(item => item.concepto.toLowerCase() !== concepto.trim().toLowerCase());
+
+                if (APP.data.gastos[selectedYear][selectedMonth].length === initialLength) {
+                    await showCustomAlert('Info', `Concepto '${concepto}' no encontrado en este mes.`);
+                    return;
+                }
+                // Save the updated month data
+                if (await saveMonthData(selectedMonth, selectedYear, APP.data.gastos[selectedYear][selectedMonth])) {
+                    // Note: Deleting a concept from a specific month does NOT remove it from the global list.
+                    // If you want to remove it globally, you'd need a separate backend endpoint for that.
+                    await showCustomAlert('Éxito', `Concepto '${concepto}' eliminado de este mes.`);
+                    // displayGastos() is called within saveMonthData's success
+                }
+            }
+        }
+
+        async function eliminarTodosLosMontos() {
+            const confirmed = await showCustomConfirm('Confirmar', '¿Está seguro de que desea eliminar TODOS los montos y estados de pago para este mes? Los conceptos permanecerán.');
+            if (confirmed) {
+                const selectedMonth = monthSelector.value;
+                const selectedYear = yearSelector.value;
+
+                // Fetch current data to ensure we have the latest
+                await displayGastos(); 
+
+                if (!APP.data.gastos[selectedYear] || !APP.data.gastos[selectedYear][selectedMonth]) {
+                    await showCustomAlert('Info', `No hay conceptos para el mes y año seleccionados.`);
+                    return;
+                }
+
+                APP.data.gastos[selectedYear][selectedMonth].forEach(item => {
+                    item.monto = "";
+                    item.fecha = "";
+                    item.pagado = "no";
+                });
+                if (await saveMonthData(selectedMonth, selectedYear, APP.data.gastos[selectedYear][selectedMonth])) {
+                    // displayGastos() is called within saveMonthData's success
+                    await showCustomAlert('Éxito', 'Todos los montos eliminados para este mes.');
+                }
+            }
+        }
+
+        return {
+            init: function() {
+                initializeSelectors(); // Llamar a la función de inicialización de selectores
+                document.getElementById('gastosAddConceptoBtn').addEventListener('click', agregarConcepto);
+                document.getElementById('gastosEliminarConceptoBtn').addEventListener('click', eliminarConcepto);
+                document.getElementById('gastosEliminarMontosBtn').addEventListener('click', eliminarTodosLosMontos);
+            },
+            displayGastos: displayGastos
+        };
+    })();
+
+    // FACTURACION Module
+    APP.Facturacion = (function() {
+        const monthSelector = document.getElementById('facturacionMonthSelector');
+        const yearSelector = document.getElementById('facturacionYearSelector');
+        const tableBody = document.getElementById('facturacionTableBody');
+        const noFacturasMessage = document.getElementById('facturacionNoFacturasMessage');
+        
+        const inputs = {
+            n_factura: document.getElementById('facturaNInput'),
+            cliente: document.getElementById('facturaClienteInput'),
+            importe: document.getElementById('facturaImporteInput'),
+            observacion: document.getElementById('facturaObservacionInput'),
+            rubro: document.getElementById('facturaRubroInput')
+        };
+
+        function initializeSelectors() {
+            monthSelector.innerHTML = '';
+            const currentMonth = new Date().getMonth();
+            MESES_ESPANOL.forEach((month, index) => {
+                const option = document.createElement('option');
+                option.value = month; option.textContent = month;
+                if (index === currentMonth) option.selected = true;
+                monthSelector.appendChild(option);
+            });
+            monthSelector.addEventListener('change', displayFacturas);
+
+            yearSelector.innerHTML = '';
+            const currentYear = new Date().getFullYear();
+            ANIOS.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year; option.textContent = year;
+                if (parseInt(year) === currentYear) option.selected = true;
+                yearSelector.appendChild(option);
+            });
+            yearSelector.addEventListener('change', displayFacturas);
+        }
+
+        function displayFacturas() {
+            tableBody.innerHTML = '';
+            APP.selectedFacturaData = null;
+            if (APP.selectedFacturaRow) {
+                APP.selectedFacturaRow.classList.remove('selected-row');
+                APP.selectedFacturaRow = null;
+            }
+
+            const selectedMonthIdx = MESES_ESPANOL.indexOf(monthSelector.value);
+            const selectedYear = parseInt(yearSelector.value);
+
+            let facturasToDisplay = [];
+            let totalFacturado = 0, totalCobrado = 0, totalPendienteArrastre = 0;
+
+            APP.data.facturas.forEach(f => {
+                try {
+                    const emissionDate = parseDate(f.fecha_emision);
+                    const importe = parseFloat(f.importe);
+                    if (isNaN(importe)) return;
+
+                    const cobroDate = f.fecha_pago ? parseDate(f.fecha_pago) : null;
+
+                    if (emissionDate.getMonth() === selectedMonthIdx && emissionDate.getFullYear() === selectedYear) {
+                        facturasToDisplay.push(f);
+                        totalFacturado += importe;
+                    }
+
+                    if (f.pagado === "si" && cobroDate &&
+                        cobroDate.getMonth() === selectedMonthIdx &&
+                        cobroDate.getFullYear() === selectedYear) {
+                        totalCobrado += importe;
+                    }
+
+                    else if (f.pagado === "no" && emissionDate < new Date(selectedYear, selectedMonthIdx, 1)) {
+                         facturasToDisplay.push({ ...f, mes_anterior: MESES_ESPANOL[emissionDate.getMonth()] });
+                         totalPendienteArrastre += importe;
+                    }
+                } catch (e) {
+                    console.error("Error al procesar factura:", f, e);
+                }
+            });
+
+            facturasToDisplay.sort((a, b) => parseDate(a.fecha_emision) - parseDate(b.fecha_emision));
+            noFacturasMessage.classList.toggle('hidden', facturasToDisplay.length > 0);
+            
+            facturasToDisplay.forEach(f => {
+                const row = tableBody.insertRow();
+                row.className = 'table-row cursor-pointer';
+                row.addEventListener('click', () => selectFacturaRow(row, f));
+                row.addEventListener('dblclick', () => showFacturaDetails(f));
+
+                const pagado = f.pagado === "si";
+                row.insertCell().textContent = f.n_factura;
+                row.insertCell().textContent = f.cliente;
+                row.insertCell().textContent = formatCurrency(f.importe);
+                row.insertCell().textContent = f.fecha_emision;
+                const estadoCell = row.insertCell();
+                estadoCell.textContent = pagado ? "COBRADO" : "PENDIENTE";
+                estadoCell.className = `${pagado ? "text-green-600" : "text-red-600"} font-bold text-center`;
+                const fechaPagoCell = row.insertCell();
+                fechaPagoCell.textContent = f.fecha_pago || (f.mes_anterior ? `(Pendiente de ${f.mes_anterior})` : 'N/A');
+                if (f.mes_anterior) fechaPagoCell.classList.add("italic", "text-gray-500");
+            });
+
+            document.getElementById('facturacionTotalFacturado').textContent = `Total Facturado: ${formatCurrency(totalFacturado)}`;
+            document.getElementById('facturacionTotalCobrado').textContent = `Total Cobrado: ${formatCurrency(totalCobrado)}`;
+            document.getElementById('facturacionTotalPendienteArrastre').textContent = `Total Pendiente: ${formatCurrency(totalPendienteArrastre)}`;
+        }
+        
+        function selectFacturaRow(rowElement, data) {
+            if (APP.selectedFacturaRow) APP.selectedFacturaRow.classList.remove('selected-row');
+            rowElement.classList.add('selected-row');
+            APP.selectedFacturaRow = rowElement;
+            APP.selectedFacturaData = data;
+            Object.keys(inputs).forEach(key => {
+                if (inputs[key]) inputs[key].value = data[key] || '';
+            });
+        }
+
+        async function showFacturaDetails(facturaData) {
+            const details = Object.entries(facturaData).map(([key, value]) => {
+                const formattedKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                const formattedValue = key === 'importe' ? formatCurrency(value) : (value || 'N/A');
+                return `${formattedKey}: ${formattedValue}`;
+            }).join('\n');
+            await showCustomAlert(`Detalles Factura N° ${facturaData.n_factura}`, details);
+        }
+        
+        function clearFacturaForm() {
+            Object.values(inputs).forEach(input => input.value = '');
+        }
+
+        async function agregarFactura() {
+            const newFactura = {};
+            for (const key in inputs) {
+                newFactura[key] = inputs[key].value.trim();
+            }
+
+            if (!newFactura.n_factura || !newFactura.cliente || !newFactura.importe || !newFactura.rubro) {
+                await showCustomAlert('Error', 'Los campos N° Factura, Cliente, Importe y Rubro son obligatorios.');
+                return;
+            }
+
+            try {
+                const importe = parseFloat(newFactura.importe.replace(",", "."));
+                if (isNaN(importe) || importe < 0) throw new Error();
+                newFactura.importe = importe.toFixed(2);
+            } catch {
+                await showCustomAlert('Error', 'Importe inválido. Ingrese un número positivo.');
+                return;
+            }
+
+            newFactura.fecha_emision = formatDate(new Date());
+            newFactura.pagado = "no";
+            newFactura.fecha_pago = "";
+            newFactura.mes_anterior = "";
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/data/facturas`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newFactura)
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Error del servidor');
+                
+                APP.data.facturas.push(result);
+                displayFacturas();
+                clearFacturaForm();
+                await showCustomAlert('Éxito', 'Factura agregada exitosamente.');
+            } catch (error) {
+                await showCustomAlert('Error al Agregar', error.message);
+            }
+        }
+        
+        async function editarFactura() {
+            if (!APP.selectedFacturaData) {
+                await showCustomAlert('Error', 'Debe seleccionar una factura para editar.');
+                return;
+            }
+
+            const updatedFactura = { ...APP.selectedFacturaData };
+            let hasChanges = false;
+            for (const key in inputs) {
+                const newValue = inputs[key].value.trim();
+                if (updatedFactura[key] !== newValue) {
+                    updatedFactura[key] = newValue;
+                    hasChanges = true;
+                }
+            }
+            if (!hasChanges) {
+                await showCustomAlert('Info', 'No se detectaron cambios.');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/data/facturas/${APP.selectedFacturaData.n_factura}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedFactura)
+                });
+                 const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Error del servidor');
+                
+                const index = APP.data.facturas.findIndex(f => f.n_factura === APP.selectedFacturaData.n_factura);
+                if (index !== -1) APP.data.facturas[index] = result;
+                
+                displayFacturas();
+                clearFacturaForm();
+                await showCustomAlert('Éxito', 'Factura editada exitosamente.');
+            } catch(error) {
+                await showCustomAlert('Error al Editar', error.message);
+            }
+        }
+
+        async function eliminarFactura() {
+             if (!APP.selectedFacturaData) {
+                await showCustomAlert('Error', 'Debe seleccionar una factura para eliminar.');
+                return;
+            }
+            const confirmed = await showCustomConfirm('Confirmar Eliminación', `¿Seguro que desea eliminar la factura N° ${APP.selectedFacturaData.n_factura}?`);
+            if (!confirmed) return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/data/facturas/${APP.selectedFacturaData.n_factura}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error('No se pudo eliminar la factura.');
+
+                APP.data.facturas = APP.data.facturas.filter(f => f.n_factura !== APP.selectedFacturaData.n_factura);
+                displayFacturas();
+                clearFacturaForm();
+                await showCustomAlert('Éxito', 'Factura eliminada.');
+            } catch(error) {
+                await showCustomAlert('Error al Eliminar', error.message);
+            }
+        }
+        
+        async function marcarCobrado() {
+    if (!APP.selectedFacturaData) {
+        await showCustomAlert('Error', 'Debe seleccionar una factura.');
+        return;
+    }
+
+    const factura = { ...APP.selectedFacturaData };
+
+    if (factura.pagado === "si") {
+        const confirmar = await showCustomConfirm('Marcar como Pendiente', '¿Desea marcar esta factura como pendiente de pago?');
+        if (!confirmar) return;
+
+        factura.pagado = "no";
+        factura.fecha_pago = "";
+
+    } else {
+        const fechaPago = await showCustomPrompt('Fecha de Cobro', 'Ingrese la fecha de cobro (DD/MM/AAAA):', formatDate(new Date()));
+        if (fechaPago === null) return;
+        try {
+            parseDate(fechaPago); // valida formato
+            factura.pagado = "si";
+            factura.fecha_pago = fechaPago;
+        } catch {
+            await showCustomAlert('Error', 'Formato de fecha inválido. Use DD/MM/AAAA.');
+            return;
+        }
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/data/facturas/${factura.n_factura}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(factura)
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'Error del servidor');
+
+        const index = APP.data.facturas.findIndex(f => f.n_factura === factura.n_factura);
+        if (index !== -1) APP.data.facturas[index] = result;
+
+        APP.Facturacion.displayFacturas();
+        APP.Facturacion.clearFacturaForm();
+        await showCustomAlert('Éxito', `Factura actualizada como ${factura.pagado === "si" ? "COBRADA" : "PENDIENTE"}.`);
+    } catch (error) {
+        await showCustomAlert('Error al Actualizar', error.message);
+    }
+}
+
+
+        return {
+            init: function() {
+                initializeSelectors();
+                document.getElementById('facturacionAddBtn').addEventListener('click', agregarFactura);
+                document.getElementById('facturacionEditarBtn').addEventListener('click', editarFactura);
+                document.getElementById('facturacionEliminarBtn').addEventListener('click', eliminarFactura);
+                document.getElementById('facturacionCobradoBtn').addEventListener('click', marcarCobrado);
+            },
+            displayFacturas: displayFacturas,
+            clearFacturaForm: clearFacturaForm
+        };
+    })();
+
+    // INGRESOS/EGRESOS Module
+    APP.IngresosEgresos = (function() {
+        const monthSelector = document.getElementById('ingresosEgresosMonthSelector');
+        const yearSelector = document.getElementById('ingresosEgresosYearSelector'); // Nuevo selector de año
+        const tableBody = document.getElementById('ingresosEgresosTableBody');
+        const noMovementsMessage = document.getElementById('ingresosEgresosNoMovementsMessage');
+
+        const inputs = {
+            razon_social: document.getElementById('ingresosEgresosRazonSocialInput'),
+            concepto_tipo: document.getElementById('ingresosEgresosConceptoTipoSelector'),
+            importe: document.getElementById('ingresosEgresosImporteInput'),
+            fecha: document.getElementById('ingresosEgresosFechaInput'),
+        };
+
+        function initializeSelectors() { // Modificado para incluir el año
+            monthSelector.innerHTML = '';
+            const currentMonth = new Date().getMonth();
+            MESES_ESPANOL.forEach((month, index) => {
+                const option = document.createElement('option');
+                option.value = month; option.textContent = month;
+                if (index === currentMonth) option.selected = true;
+                monthSelector.appendChild(option);
+            });
+            monthSelector.addEventListener('change', displayMovements);
+
+            yearSelector.innerHTML = '';
+            const currentYear = new Date().getFullYear();
+            ANIOS.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year; option.textContent = year;
+                if (parseInt(year) === currentYear) option.selected = true;
+                yearSelector.appendChild(option);
+            });
+            yearSelector.addEventListener('change', displayMovements);
+
+            inputs.fecha.value = formatDate(new Date());
+        }
+
+        function displayMovements() {
+            tableBody.innerHTML = '';
+            APP.selectedMovementData = null;
+            if (APP.selectedMovementRow) APP.selectedMovementRow.classList.remove('selected-row');
+
+            const selectedMonthName = monthSelector.value;
+            const selectedYear = parseInt(yearSelector.value); // Obtener año seleccionado
+            let balance = 0.0;
+            let movementsToDisplay = [];
+
+            APP.data.ingresosEgresos.forEach(mov => {
+                try {
+                    const movementDate = parseDate(mov.fecha);
+                    if (MESES_ESPANOL[movementDate.getMonth()] === selectedMonthName && movementDate.getFullYear() === selectedYear) { // Filtrar por año
+                        movementsToDisplay.push(mov);
+                        const importe = parseFloat(mov.importe);
+                        if (!isNaN(importe)) {
+                            balance += (mov.concepto_tipo === "Ingreso" ? importe : -importe);
+                        }
+                    }
+                } catch (e) { console.error("Error procesando movimiento:", mov, e); }
+            });
+
+            movementsToDisplay.sort((a, b) => parseDate(b.fecha) - parseDate(a.fecha));
+            document.getElementById('ingresosEgresosBalanceLabel').textContent = `Balance del Mes: ${formatCurrency(balance)}`;
+            noMovementsMessage.classList.toggle('hidden', movementsToDisplay.length > 0);
+
+            movementsToDisplay.forEach(mov => {
+                const row = tableBody.insertRow();
+                row.className = 'table-row cursor-pointer';
+                row.addEventListener('click', () => selectMovementRow(row, mov));
+                
+                const isIngreso = mov.concepto_tipo === "Ingreso";
+                const razonCell = row.insertCell();
+                razonCell.textContent = mov.razon_social;
+                razonCell.className = 'text-center';
+
+                const conceptoCell = row.insertCell();
+                conceptoCell.textContent = mov.concepto_tipo.toUpperCase();
+                conceptoCell.className = `${isIngreso ? 'text-green-600' : 'text-red-600'} font-bold text-center`;
+
+                row.insertCell().textContent = formatCurrency(mov.importe);
+                row.insertCell().textContent = mov.fecha;
+            });
+        }
+
+        function selectMovementRow(rowElement, data) {
+            if (APP.selectedMovementRow) APP.selectedMovementRow.classList.remove('selected-row');
+            rowElement.classList.add('selected-row');
+            APP.selectedMovementRow = rowElement;
+            APP.selectedMovementData = data;
+        }
+
+        function clearForm() {
+            inputs.razon_social.value = '';
+            inputs.importe.value = '';
+            inputs.fecha.value = formatDate(new Date());
+            inputs.concepto_tipo.value = 'Ingreso';
+        }
+
+        async function addMovement() {
+            const newMovement = {};
+            for (const key in inputs) newMovement[key] = inputs[key].value.trim();
+
+            if (!newMovement.razon_social || !newMovement.importe || !newMovement.fecha) {
+                await showCustomAlert('Error', 'Razón Social, Importe y Fecha son obligatorios.');
+                return;
+            }
+            try {
+                parseDate(newMovement.fecha);
+                const importe = parseFloat(newMovement.importe.replace(",", "."));
+                if (isNaN(importe) || importe < 0) throw new Error("Importe inválido");
+                newMovement.importe = importe.toFixed(2);
+            } catch (e) {
+                await showCustomAlert('Error', `${e.message}. Use formato DD/MM/AAAA para la fecha.`);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/data/ingresosEgresos`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newMovement)
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Error del servidor');
+                
+                APP.data.ingresosEgresos.push(result);
+                displayMovements();
+                clearForm();
+                await showCustomAlert('Éxito', 'Movimiento agregado.');
+            } catch (error) {
+                await showCustomAlert('Error al Agregar', error.message);
+            }
+        }
+
+        async function editSelectedMovement() {
+            if (!APP.selectedMovementData) {
+                await showCustomAlert('Error', 'Debe seleccionar un movimiento para editar.');
+                return;
+            }
+            // Implementation for editing a movement would go here.
+            // It would involve a modal and a PUT request, similar to other modules.
+            await showCustomAlert("Info", "La edición de movimientos aún no está implementada en esta versión.");
+        }
+
+        async function deleteSelectedMovement() {
+            if (!APP.selectedMovementData) {
+                await showCustomAlert('Error', 'Debe seleccionar un movimiento para eliminar.');
+                return;
+            }
+            const confirmed = await showCustomConfirm('Confirmar', `¿Seguro que desea eliminar el movimiento '${APP.selectedMovementData.razon_social}'?`);
+            if (!confirmed) return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/data/ingresosEgresos/${APP.selectedMovementData.id}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error((await response.json()).error);
+
+                APP.data.ingresosEgresos = APP.data.ingresosEgresos.filter(m => m.id !== APP.selectedMovementData.id);
+                displayMovements();
+                await showCustomAlert('Éxito', 'Movimiento eliminado.');
+            } catch (error) {
+                await showCustomAlert('Error al Eliminar', error.message);
+            }
+        }
+
+        return {
+            init: function() {
+                initializeSelectors(); // Llamar a la función de inicialización de selectores
+                document.getElementById('ingresosEgresosAddBtn').addEventListener('click', addMovement);
+                document.getElementById('ingresosEgresosEditBtn').addEventListener('click', editSelectedMovement);
+                document.getElementById('ingresosEgresosDeleteBtn').addEventListener('click', deleteSelectedMovement);
+            },
+            displayMovements: displayMovements
+        };
+    })();
+
+    // LISTA DE PRECIOS Module
+    APP.ListaPrecios = (function() {
+        const tableBody = document.getElementById('listaPreciosTableBody');
+        const noItemsMessage = document.getElementById('listaPreciosNoItemsMessage');
+        const conceptoSelector = document.getElementById('listaPreciosConceptoSelector');
+        const tituloSelector = document.getElementById('listaPreciosTituloSelector');
+        const monthSelector = document.getElementById('listaPreciosMonthSelector');
+        const yearSelector = document.getElementById('listaPreciosYearSelector');
+        const addBtn = document.getElementById('listaPreciosAddBtn');
+        const editBtn = document.getElementById('listaPreciosEditBtn');
+        const deleteBtn = document.getElementById('listaPreciosDeleteBtn');
+        const porcentajeBtn = document.getElementById('listaPreciosPorcentajeBtn');
+
+        // Nuevo modal de edición para Lista de Precios
+        const editModal = document.getElementById('listaPreciosEditModal');
+        const editModalTitle = document.getElementById('listaPreciosEditModalTitle');
+        const editDescripcionInput = document.getElementById('listaPreciosEditDescripcionInput');
+        const editCodigoInput = document.getElementById('listaPreciosEditCodigoInput');
+        const editPrecioInput = document.getElementById('listaPreciosEditPrecioInput');
+        const editPadreSelect = document.getElementById('listaPreciosEditPadreSelect');
+        const editModalConfirmBtn = document.getElementById('listaPreciosEditModalConfirmBtn');
+        const editModalCancelBtn = document.getElementById('listaPreciosEditModalCancelBtn');
+
+        const editCodigoGroup = document.getElementById('listaPreciosEditCodigoGroup');
+        const editPrecioGroup = document.getElementById('listaPreciosEditPrecioGroup');
+        const editPadreGroup = document.getElementById('listaPreciosEditPadreGroup');
+
+        // Nuevo modal de AGREGAR para Lista de Precios
+        const addModal = document.getElementById('listaPreciosAddModal');
+        const addModalTitle = document.getElementById('listaPreciosAddModalTitle');
+        const addTipoSelect = document.getElementById('listaPreciosAddTipoSelect');
+        const addDescripcionInput = document.getElementById('listaPreciosAddDescripcionInput');
+        const addCodigoInput = document.getElementById('listaPreciosAddCodigoInput');
+        const addPrecioInput = document.getElementById('listaPreciosAddPrecioInput');
+        const addPadreSelect = document.getElementById('listaPreciosAddPadreSelect');
+        const addModalConfirmBtn = document.getElementById('listaPreciosAddModalConfirmBtn');
+        const addModalCancelBtn = document.getElementById('listaPreciosAddModalCancelBtn');
+
+        const addCodigoGroup = document.getElementById('listaPreciosAddCodigoGroup');
+        const addPrecioGroup = document.getElementById('listaPreciosAddPrecioGroup');
+        const addPadreGroup = document.getElementById('listaPreciosAddPadreGroup');
+
+
+        let currentEditItem = null;
+
+        function initializeSelectors() {
+            monthSelector.innerHTML = '';
+            const currentMonth = new Date().getMonth();
+            MESES_ESPANOL.forEach((month, index) => {
+                const option = document.createElement('option');
+                option.value = index; // Use month index
+                option.textContent = month;
+                if (index === currentMonth) option.selected = true;
+                monthSelector.appendChild(option);
+            });
+            monthSelector.addEventListener('change', displayPriceList);
+
+            yearSelector.innerHTML = '';
+            const currentYear = new Date().getFullYear();
+            ANIOS.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year; 
+                option.textContent = year;
+                if (parseInt(year) === currentYear) option.selected = true;
+                yearSelector.appendChild(option);
+            });
+            yearSelector.addEventListener('change', displayPriceList);
+        }
+
+        function getPriceForDate(item, targetDate) {
+            if (item.tipo !== 'item' || !item.price_history || item.price_history.length === 0) {
+                return undefined;
+            }
+
+            const validPrices = item.price_history
+                .map(p => ({ ...p, dateObj: new Date(p.date) }))
+                .filter(p => p.dateObj <= targetDate)
+                .sort((a, b) => b.dateObj - a.dateObj);
+
+            return validPrices.length > 0 ? validPrices[0].price : undefined;
+        }
+
+        async function fetchData() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/data/precios`);
+                if (!response.ok) throw new Error('Error al cargar la lista de precios.');
+                
+                const precios = await response.json();
+                APP.data.precios = precios.map(item => {
+                    if (item.tipo === 'item' && item.precio !== undefined && !item.price_history) {
+                        item.price_history = [{ date: '2022-01-01', price: item.precio }];
+                    }
+                    return item;
+                });
+
+                displayPriceList();
+                populateConceptoSelector();
+                populateTituloSelector();
+            } catch (error) {
+                console.error("Error en fetchData de Lista de Precios:", error);
+                await showCustomAlert("Error de Carga", `No se pudo cargar la lista de precios: ${error.message}.`);
+            }
+        }
+
+        async function saveItem(item) {
+            try {
+                const method = APP.data.precios.some(i => i.id === item.id) ? 'PUT' : 'POST';
+                const url = method === 'PUT' ? `${API_BASE_URL}/data/precios/${item.id}` : `${API_BASE_URL}/data/precios`;
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(item)
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Error del servidor.');
+                return result;
+            } catch (error) {
+                console.error("Error al guardar ítem de precio:", error);
+                await showCustomAlert("Error al Guardar", `No se pudo guardar el ítem: ${error.message}`);
+                return null;
+            }
+        }
+
+        function populateConceptoSelector() {
+            const currentVal = conceptoSelector.value;
+            conceptoSelector.innerHTML = '<option value="">Mostrar todo</option>';
+            const conceptos = APP.data.precios.filter(item => item.tipo === 'concepto');
+            conceptos.sort((a,b) => a.descripcion.localeCompare(b.descripcion));
+            conceptos.forEach(concepto => {
+                const option = document.createElement('option');
+                option.value = concepto.id;
+                option.textContent = concepto.descripcion;
+                conceptoSelector.appendChild(option);
+            });
+            conceptoSelector.value = currentVal;
+        }
+
+        function populateTituloSelector() {
+            const currentVal = tituloSelector.value;
+            tituloSelector.innerHTML = '<option value="">Mostrar todo</option>';
+            const titulos = APP.data.precios.filter(item => item.tipo === 'titulo');
+            titulos.sort((a,b) => a.descripcion.localeCompare(b.descripcion));
+            titulos.forEach(titulo => {
+                const option = document.createElement('option');
+                option.value = titulo.id;
+                option.textContent = titulo.descripcion;
+                tituloSelector.appendChild(option);
+            });
+            tituloSelector.value = currentVal;
+        }
+
+        function displayPriceList() {
+            tableBody.innerHTML = '';
+            APP.selectedPriceData = null;
+            if (APP.selectedPriceRow) {
+                APP.selectedPriceRow.classList.remove('selected-row');
+                APP.selectedPriceRow = null;
+            }
+
+            const selectedYear = parseInt(yearSelector.value);
+            const selectedMonth = parseInt(monthSelector.value);
+            const targetDate = new Date(selectedYear, selectedMonth, 1);
+
+            const selectedConceptoId = conceptoSelector.value;
+            const selectedTituloId = tituloSelector.value;
+            
+            const itemMap = new Map(APP.data.precios.map(item => [item.id, { ...item, children: [] }]));
+            itemMap.forEach(item => {
+                if (item.padre_id && itemMap.has(item.padre_id)) {
+                    itemMap.get(item.padre_id).children.push(item);
+                }
+            });
+
+            let topLevelItems = Array.from(itemMap.values()).filter(item => !item.padre_id || item.tipo === 'concepto');
+            
+            if (selectedConceptoId) {
+                const concepto = itemMap.get(selectedConceptoId);
+                topLevelItems = concepto ? [concepto] : [];
+            } else if (selectedTituloId) {
+                const titulo = itemMap.get(selectedTituloId);
+                if (titulo) {
+                    const padre = itemMap.get(titulo.padre_id);
+                    if (padre) {
+                        padre.children = [titulo];
+                        topLevelItems = [padre];
+                    } else {
+                        topLevelItems = [titulo];
+                    }
+                } else {
+                    topLevelItems = [];
+                }
+            }
+
+            topLevelItems.sort((a, b) => a.descripcion.localeCompare(b.descripcion));
+
+            let itemsToRender = [];
+            function flattenAndSort(nodes, level) {
+                nodes.sort((a, b) => a.descripcion.localeCompare(b.descripcion));
+                nodes.forEach(node => {
+                    itemsToRender.push({ item: node, level: level });
+                    if (node.children.length > 0) {
+                        flattenAndSort(node.children, level + 1);
+                    }
+                });
+            }
+            flattenAndSort(topLevelItems, 0);
+
+            if (itemsToRender.length === 0) {
+                noItemsMessage.classList.remove('hidden');
+                return;
+            }
+            noItemsMessage.classList.add('hidden');
+
+            itemsToRender.forEach(({ item, level }) => {
+                const row = tableBody.insertRow();
+                row.className = 'table-row cursor-pointer';
+                row.dataset.id = item.id;
+                row.dataset.type = item.tipo;
+                row.addEventListener('click', () => selectPriceRow(row, item));
+
+                let descText, codeText, priceText;
+                
+                if (item.tipo === 'item') {
+                    const price = getPriceForDate(item, targetDate);
+                    priceText = price !== undefined ? formatCurrency(price) : 'N/A';
+                }
+
+                let rowClasses = '';
+                const indent = ' '.repeat(level * 4);
+
+                if (item.tipo === 'concepto') {
+                    descText = `📄 ${item.descripcion.toUpperCase()}`;
+                    rowClasses = 'bg-gray-100 font-bold';
+                    codeText = '';
+                } else if (item.tipo === 'titulo') {
+                    descText = `${indent}${item.descripcion}`;
+                    rowClasses = 'bg-gray-50 italic font-semibold';
+                } else {
+                    descText = `${indent}- ${item.descripcion}`;
+                }
+
+                row.className += ` ${rowClasses}`;
+                row.insertCell().textContent = codeText;
+                row.insertCell().textContent = descText;
+                row.insertCell().textContent = priceText;
+            });
+        }
+
+        function selectPriceRow(rowElement, data) {
+            if (APP.selectedPriceRow) APP.selectedPriceRow.classList.remove('selected-row');
+            rowElement.classList.add('selected-row');
+            APP.selectedPriceRow = rowElement;
+            APP.selectedPriceData = data;
+        }
+
+        // Función para mostrar el modal de edición de Lista de Precios
+        async function handleEditPriceList(itemToEdit) {
+            // Limpiar y reiniciar el estado del modal
+            editDescripcionInput.value = '';
+            editCodigoInput.value = '';
+            editPrecioInput.value = '';
+            editPadreSelect.innerHTML = '';
+
+            // Configurar el modal según el tipo de ítem
+            editModalTitle.textContent = `Editar ${itemToEdit.tipo.charAt(0).toUpperCase() + itemToEdit.tipo.slice(1)}`;
+            editDescripcionInput.value = itemToEdit.descripcion;
+
+            // Ocultar/mostrar campos y poblar datos
+            if (itemToEdit.tipo === 'concepto') {
+                editCodigoGroup.classList.add('hidden');
+                editPrecioGroup.classList.add('hidden');
+                editPadreGroup.classList.add('hidden');
+            } else if (itemToEdit.tipo === 'titulo') {
+                editCodigoGroup.classList.add('hidden');
+                editPrecioGroup.classList.add('hidden');
+                editPadreGroup.classList.remove('hidden');
+
+                // Poblar selector de padre (conceptos)
+                editPadreSelect.innerHTML = '<option value="">Seleccione un concepto</option>';
+                const conceptos = APP.data.precios.filter(i => i.tipo === 'concepto');
+                conceptos.forEach(concepto => {
+                    const option = document.createElement('option');
+                    option.value = concepto.id;
+                    option.textContent = concepto.descripcion;
+                    editPadreSelect.appendChild(option);
+                });
+                editPadreSelect.value = itemToEdit.padre_id;
+
+            } else if (itemToEdit.tipo === 'item') {
+                editCodigoGroup.classList.remove('hidden');
+                editPrecioGroup.classList.remove('hidden');
+                editPadreGroup.classList.remove('hidden');
+
+                editCodigoInput.value = itemToEdit.codigo || '';
+                const selectedYear = parseInt(yearSelector.value);
+                const selectedMonth = parseInt(monthSelector.value);
+                const targetDate = new Date(selectedYear, selectedMonth, 1);
+                const currentPrice = getPriceForDate(itemToEdit, targetDate);
+                editPrecioInput.value = currentPrice !== undefined ? currentPrice : '';
+
+                // Poblar selector de padre (títulos)
+                editPadreSelect.innerHTML = '<option value="">Seleccione un título</option>';
+                const titulos = APP.data.precios.filter(i => i.tipo === 'titulo');
+                titulos.forEach(titulo => {
+                    const option = document.createElement('option');
+                    option.value = titulo.id;
+                    option.textContent = titulo.descripcion;
+                    editPadreSelect.appendChild(option);
+                });
+                editPadreSelect.value = itemToEdit.padre_id;
+            }
+
+            // Mostrar el modal
+            editModal.classList.add('show');
+
+            // Manejar guardado/cancelación
+            return new Promise(resolve => {
+                editModalConfirmBtn.onclick = async () => {
+                    const updatedItem = { ...itemToEdit };
+                    updatedItem.descripcion = editDescripcionInput.value.trim();
+
+                    if (itemToEdit.tipo === 'titulo') {
+                        updatedItem.padre_id = editPadreSelect.value;
+                    } else if (itemToEdit.tipo === 'item') {
+                        updatedItem.codigo = editCodigoInput.value.trim();
+                        updatedItem.padre_id = editPadreSelect.value;
+                        const newPrice = parseFloat(editPrecioInput.value);
+                        if (isNaN(newPrice) || newPrice < 0) {
+                            await showCustomAlert('Error', 'El precio debe ser un número positivo.');
+                            return;
+                        }
+
+                        const selectedYear = parseInt(yearSelector.value);
+                        const selectedMonth = parseInt(monthSelector.value);
+                        const effectiveDate = new Date(selectedYear, selectedMonth, 1);
+                        const effectiveDateString = `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}-01`;
+
+                        // Ensure price_history exists
+                        if (!updatedItem.price_history) {
+                            updatedItem.price_history = [];
+                        }
+
+                        const historyIndex = updatedItem.price_history.findIndex(h => h.date.startsWith(`${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}`));
+
+                        if (historyIndex > -1) {
+                            updatedItem.price_history[historyIndex].price = newPrice;
+                        } else {
+                            updatedItem.price_history.push({ date: effectiveDateString, price: newPrice });
+                        }
+                    }
+
+                    if (!updatedItem.descripcion) {
+                        await showCustomAlert('Error', 'La descripción es obligatoria.');
+                        return;
+                    }
+                    if (itemToEdit.tipo !== 'concepto' && !updatedItem.padre_id) {
+                        await showCustomAlert('Error', `Seleccione un padre para el tipo ${itemToEdit.tipo}.`);
+                        return;
+                    }
+
+                    const savedItem = await saveItem(updatedItem);
+                    if (savedItem) {
+                        const index = APP.data.precios.findIndex(i => i.id === savedItem.id);
+                        if (index !== -1) APP.data.precios[index] = savedItem;
+
+                        editModal.classList.remove('show');
+                        await showCustomAlert('Éxito', 'Elemento editado exitosamente.');
+                        fetchData();
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                };
+
+                editModalCancelBtn.onclick = () => {
+                    editModal.classList.remove('show');
+                    resolve(false);
+                };
+            });
+        }
+
+        async function handleAdd() {
+            addModalTitle.textContent = 'Agregar Elemento';
+            addTipoSelect.value = 'concepto'; // Default to concepto
+            addDescripcionInput.value = '';
+            addCodigoInput.value = '';
+            addPrecioInput.value = '';
+            addPadreSelect.innerHTML = '<option value="">Seleccione un padre</option>';
+
+            // Update visibility for the ADD modal fields
+            const updateAddModalFieldsVisibility = () => {
+                const selectedType = addTipoSelect.value;
+                addCodigoGroup.classList.toggle('hidden', selectedType !== 'item');
+                addPrecioGroup.classList.toggle('hidden', selectedType !== 'item');
+                addPadreGroup.classList.toggle('hidden', selectedType === 'concepto');
+
+                addPadreSelect.innerHTML = '<option value="">Seleccione un padre</option>';
+                let possibleParents = [];
+                if (selectedType === 'titulo') {
+                    possibleParents = APP.data.precios.filter(item => item.tipo === 'concepto');
+                } else if (selectedType === 'item') {
+                    possibleParents = APP.data.precios.filter(item => item.tipo === 'titulo');
+                }
+                possibleParents.sort((a,b) => a.descripcion.localeCompare(b.descripcion));
+                possibleParents.forEach(parent => {
+                    const option = document.createElement('option');
+                    option.value = parent.id;
+                    option.textContent = parent.descripcion;
+                    addPadreSelect.appendChild(option);
+                });
+            };
+
+            updateAddModalFieldsVisibility();
+            addTipoSelect.onchange = updateAddModalFieldsVisibility;
+
+            addModal.classList.add('show');
+
+            return new Promise(resolve => {
+                addModalConfirmBtn.onclick = async () => {
+                    const itemData = {
+                        id: generateUniqueId(), // Ensure this generates a truly unique ID
+                        tipo: addTipoSelect.value,
+                        descripcion: addDescripcionInput.value.trim(),
+                        codigo: addTipoSelect.value === 'item' ? addCodigoInput.value.trim() : '',
+                        padre_id: addTipoSelect.value === 'concepto' ? '' : addPadreSelect.value,
+                        price_history: []
+                    };
+
+                    if (!itemData.descripcion) {
+                        await showCustomAlert('Error', 'La descripción es obligatoria.');
+                        return;
+                    }
+                    if (itemData.tipo !== 'concepto' && !itemData.padre_id) {
+                        await showCustomAlert('Error', `Seleccione un padre para el tipo ${itemData.tipo}.`);
+                        return;
+                    }
+
+                    if (itemData.tipo === 'item') {
+                        const newPrice = parseFloat(addPrecioInput.value);
+                        if (isNaN(newPrice) || newPrice < 0) {
+                            await showCustomAlert('Error', 'El precio debe ser un número positivo.');
+                            return;
+                        }
+                        const selectedYear = parseInt(yearSelector.value);
+                        const selectedMonth = parseInt(monthSelector.value);
+                        const effectiveDateString = `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}-01`;
+                        itemData.price_history.push({ date: effectiveDateString, price: newPrice });
+                    }
+
+                    const savedItem = await saveItem(itemData);
+                    if (savedItem) {
+                        APP.data.precios.push(savedItem);
+                        addModal.classList.remove('show');
+                        await showCustomAlert('Éxito', `Elemento agregado exitosamente.`);
+                        await fetchData();
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                };
+                addModalCancelBtn.onclick = () => {
+                    addModal.classList.remove('show');
+                    resolve(false);
+                };
+            });
+        }
+
+
+        async function handleDelete() {
+            if (!APP.selectedPriceData) {
+                await showCustomAlert('Eliminar', 'Por favor, seleccioná un elemento para eliminar.');
+                return;
+            }
+            const confirmed = await showCustomConfirm('Eliminar', `¿Estás seguro de eliminar "${APP.selectedPriceData.descripcion}"? Esto también eliminará todos sus sub-elementos.`);
+            if (!confirmed) return;
+
+            const idsToDelete = new Set();
+            function collectChildren(parentId) {
+                idsToDelete.add(parentId);
+                APP.data.precios.filter(p => p.padre_id === parentId).forEach(child => collectChildren(child.id));
+            }
+            collectChildren(APP.selectedPriceData.id);
+
+            try {
+                const deletePromises = Array.from(idsToDelete).map(id => fetch(`${API_BASE_URL}/data/precios/${id}`, { method: 'DELETE' }));
+                await Promise.all(deletePromises);
+                await showCustomAlert("Éxito", "Elemento y sus hijos eliminados.");
+            } catch (error) {
+                await showCustomAlert("Error", "Fallo al eliminar un sub-elemento.");
+            } finally {
+                await fetchData();
+            }
+        }
+
+        async function applyPercentageIncrease() {
+            const percentageInput = await showCustomPrompt('Aplicar Porcentaje', 'Ingrese el porcentaje a sumar (ej: 10 para 10%):');
+            if (percentageInput === null) return;
+            const percentage = parseFloat(percentageInput.replace(',', '.'));
+            if (isNaN(percentage) || percentage < 0) {
+                await showCustomAlert('Error', 'Porcentaje inválido.');
+                return;
+            }
+
+            const confirmed = await showCustomConfirm('Confirmar', `¿Aplicar un aumento del ${percentage}% a TODOS los precios para el mes seleccionado?`);
+            if (!confirmed) return;
+            
+            const selectedYear = parseInt(yearSelector.value);
+            const selectedMonth = parseInt(monthSelector.value);
+            const targetDate = new Date(selectedYear, selectedMonth, 1);
+            const effectiveDateString = `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}-01`;
+
+            const updatedItems = [];
+
+            for (const item of APP.data.precios) {
+                if (item.tipo === 'item') {
+                    const currentPrice = getPriceForDate(item, targetDate);
+                    if(currentPrice !== undefined) {
+                        const newPrice = currentPrice * (1 + percentage / 100);
+                        const updatedItem = JSON.parse(JSON.stringify(item)); // Deep copy
+                        
+                        const historyIndex = updatedItem.price_history.findIndex(h => h.date.startsWith(`${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}`));
+                        if (historyIndex > -1) {
+                            updatedItem.price_history[historyIndex].price = newPrice.toFixed(2);
+                        } else {
+                            updatedItem.price_history.push({ date: effectiveDateString, price: newPrice.toFixed(2) });
+                        }
+                        updatedItems.push(updatedItem);
+                    }
+                }
+            }
+
+            try {
+                const savePromises = updatedItems.map(item => saveItem(item));
+                await Promise.all(savePromises);
+                await showCustomAlert('Éxito', `Se aplicó un aumento del ${percentage}%.`);
+            } catch (error) {
+                 await showCustomAlert('Error', 'Hubo un problema al aplicar el porcentaje.');
+            } finally {
+                await fetchData();
+            }
+        }
+
+        async function generatePdf() {
+            try {
+                const { jsPDF } = window.jspdf;
+                if (!jsPDF || typeof jsPDF.API.autoTable !== 'function') {
+                    await showCustomAlert("Error", "La librería para generar PDF no se ha cargado correctamente.");
+                    return;
+                }
+
+                const selectedYear = parseInt(yearSelector.value);
+                const selectedMonth = parseInt(monthSelector.value);
+                const targetDate = new Date(selectedYear, selectedMonth, 1);
+
+                const selectedConceptoId = conceptoSelector.value;
+                const selectedTituloId = tituloSelector.value;
+                let itemsToRender = [];
+                const itemMap = new Map(APP.data.precios.map(item => [item.id, { ...item, children: [] }]));
+                itemMap.forEach(item => {
+                    if (item.padre_id && itemMap.has(item.padre_id)) {
+                        itemMap.get(item.padre_id).children.push(item);
+                    }
+                });
+
+                let topLevelItems = Array.from(itemMap.values()).filter(item => !item.padre_id || item.tipo === 'concepto');
+                
+                if (selectedConceptoId) {
+                    const concepto = itemMap.get(selectedConceptoId);
+                    topLevelItems = concepto ? [concepto] : [];
+                } else if (selectedTituloId) {
+                    const titulo = itemMap.get(selectedTituloId);
+                    if (titulo) {
+                        const padre = itemMap.get(titulo.padre_id);
+                        if (padre) {
+                            padre.children = [titulo];
+                            topLevelItems = [padre];
+                        } else {
+                            topLevelItems = [titulo];
+                        }
+                    } else {
+                        topLevelItems = [];
+                    }
+                }
+                
+                topLevelItems.sort((a, b) => a.descripcion.localeCompare(b.descripcion));
+
+                function flattenForPdf(nodes, level) {
+                    nodes.sort((a, b) => a.descripcion.localeCompare(b.descripcion));
+                    nodes.forEach(node => {
+                        itemsToRender.push({ item: node, level: level });
+                        if (node.children.length > 0) {
+                            flattenForPdf(node.children, level + 1);
+                        }
+                    });
+                }
+                flattenForPdf(topLevelItems, 0);
+
+                if (itemsToRender.length === 0) {
+                    await showCustomAlert("Info", "No hay ítems para generar el PDF.");
+                    return;
+                }
+
+                const doc = new jsPDF();
+                const tableBody = [];
+                const rowStyles = {};
+                const pageHeight = doc.internal.pageSize.getHeight();
+                const pageWidth = doc.internal.pageSize.getWidth();
+
+                doc.setFontSize(20);
+                doc.setFont('helvetica', 'bold');
+                doc.text("Lista de Precios", 14, 22);
+
+                const logoImg = document.querySelector('.sidebar-logo');
+                if (logoImg && logoImg.src) {
+                    try {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        const img = new Image();
+                        img.crossOrigin = "Anonymous";
+                        
+                        await new Promise((resolve, reject) => {
+                            img.onload = () => {
+                                canvas.width = img.width;
+                                canvas.height = img.height;
+                                ctx.drawImage(img, 0, 0);
+                                const dataUrl = canvas.toDataURL('image/png');
+                                doc.addImage(dataUrl, 'PNG', pageWidth - 14 - 30, 12, 30, 20);
+                                resolve();
+                            };
+                            img.onerror = reject;
+                            img.src = logoImg.src;
+                        });
+                    } catch (e) {
+                        console.error("Error al cargar el logo para el PDF:", e);
+                    }
+                }
+                
+                itemsToRender.forEach(({ item, level }, index) => {
+                    let descText, codeText, priceText;
+                    let styles = {};
+                    
+                    if (item.tipo === 'item') {
+                        const price = getPriceForDate(item, targetDate);
+                        priceText = price !== undefined ? formatCurrency(price) : 'N/A';
+                    }
+
+                    if (item.tipo === 'concepto') {
+                        descText = item.descripcion.toUpperCase();
+                        codeText = '';
+                        styles = { fontStyle: 'bold', fillColor: [219, 248, 165], textColor: [0,0,0] };
+                    } else if (item.tipo === 'titulo') {
+                        descText = ' '.repeat(level * 4) + item.descripcion;
+                        codeText = '';
+                        styles = { fontStyle: 'bolditalic', fillColor: [245, 245, 245], textColor: [0,0,0] };
+                    } else {
+                        descText = ' '.repeat(level * 4) + `- ${item.descripcion}`;
+                        codeText = item.codigo || '';
+                    }
+
+                    tableBody.push([codeText, descText, priceText]);
+                    rowStyles[index] = styles;
+                });
+
+                doc.autoTable({
+                    startY: 35,
+                    head: [['Código', 'Descripción', 'Precio']],
+                    body: tableBody,
+                    theme: 'grid',
+                    headStyles: {
+                        fillColor: [107, 128, 33],
+                        textColor: [255, 255, 255],
+                        fontStyle: 'bold'
+                    },
+                    didParseCell: function (data) {
+                        if (rowStyles[data.row.index]) {
+                            Object.assign(data.cell.styles, rowStyles[data.row.index]);
+                        }
+                    },
+                    didDrawPage: function (data) {
+                        doc.setFontSize(9);
+                        doc.setFont('helvetica', 'italic');
+                        doc.setTextColor(100);
+                        const note = "Los precios no incluyen el IVA 21%";
+                        doc.text(note, pageWidth / 2, pageHeight - 10, { align: 'center' });
+                    }
+                });
+
+                doc.save('lista_de_precios.pdf');
+            } catch(e) {
+                 console.error("Error al generar PDF:", e);
+                 await showCustomAlert("Error", "Ocurrió un error inesperado al generar el PDF.");
+            }
+        }
+
+        return {
+            init: function() {
+                initializeSelectors();
+                addBtn.addEventListener('click', () => {
+                    currentEditItem = null;
+                    handleAdd();
+                });
+                editBtn.addEventListener('click', () => {
+                    if (APP.selectedPriceData) {
+                        currentEditItem = APP.selectedPriceData;
+                        handleEditPriceList(APP.selectedPriceData); // Call the new edit function
+                    } else {
+                        showCustomAlert('Editar', 'Por favor, seleccioná un elemento para editar.');
+                    }
+                });
+                deleteBtn.addEventListener('click', handleDelete);
+                conceptoSelector.addEventListener('change', displayPriceList);
+                tituloSelector.addEventListener('change', displayPriceList);
+                porcentajeBtn.addEventListener('click', applyPercentageIncrease);
+                document.getElementById('listaPreciosPDFBtn').addEventListener('click', generatePdf);
+            },
+            displayPriceList: fetchData
+        };
+    })();
+
+    // PANEL DE USUARIOS Module
+    APP.PanelUsuarios = (function() {
+        async function manageUser(action) {
+            let username, password, role, body;
+            const apiEndpoint = `${API_BASE_URL}/data/users`;
+            const method = (action === 'create') ? 'POST' : (action === 'changePass' ? 'PUT' : 'DELETE');
+
+            username = await showCustomPrompt(`Acción: ${action}`, "Nombre de usuario:");
+            if (!username) return;
+
+            if (action === 'create' || action === 'changePass') {
+                password = await showCustomPrompt("Contraseña", `Ingrese la contraseña para ${username}:`);
+                if (!password) return;
+                const user = APP.data.users.find(u => u.usuario === username) || {};
+                role = (action === 'create') ? (await showCustomPrompt("Rol", "admin/limitado", "limitado")) : user.rol;
+                body = { usuario: username, contrasena: password, rol: role };
+            }
+
+            if (action === 'delete') {
+                 if (username === APP.loggedInUser) {
+                    await showCustomAlert("Error", "No puedes eliminar tu propia cuenta.");
+                    return;
+                 }
+                const confirmed = await showCustomConfirm("Confirmar", `¿Eliminar al usuario ${username}?`);
+                if (!confirmed) return;
+            }
+            
+            try {
+                const url = (method === 'POST') ? apiEndpoint : `${apiEndpoint}/${username}`;
+                const options = {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                };
+                if (body) options.body = JSON.stringify(body);
+
+                const response = await fetch(url, options);
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error);
+
+                await showCustomAlert("Éxito", result.message || `Operación sobre '${username}' completada.`);
+                const userResponse = await fetch(apiEndpoint);
+                APP.data.users = await userResponse.json();
+            } catch (error) {
+                await showCustomAlert("Error", error.message);
+            }
+        }
+
+        return {
+            init: function() {
+                document.getElementById('createUserBtn').addEventListener('click', () => manageUser('create'));
+                document.getElementById('changePassBtn').addEventListener('click', () => manageUser('changePass'));
+                document.getElementById('deleteUserBtn').addEventListener('click', () => manageUser('delete'));
+            }
+        };
+    })();
+
+    // --- Initialize All Modules ---
+    document.addEventListener('DOMContentLoaded', () => {
+        APP.Login.init();
+        APP.Menu.init();
+        APP.Gastos.init();
+        APP.Facturacion.init();
+        APP.IngresosEgresos.init();
+        APP.ListaPrecios.init();
+        APP.PanelUsuarios.init();
+        APP.Inventario.init(); 
+    });
+
+    let inventario = []; 
+
+</script>
+
+</body>
+</html>

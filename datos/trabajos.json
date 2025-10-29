@@ -1,0 +1,32 @@
+[
+    {
+        "cliente": "dorinka",
+        "tarea": "Diseño Gráfico",
+        "usuario": "egreve",
+        "id": "6a8b12ae-0cb6-4f6f-b8b6-e268ffe6f7a4",
+        "fecha_creacion": "17/07/2025",
+        "estado": "proceso"
+    },
+    {
+        "id": "mdrh492hq0w9a7qalds",
+        "usuario": "fgadea",
+        "cliente": "DONATELLO",
+        "tarea_id": "mdqdf6d9tocby1rwd8",
+        "cantidad": 1,
+        "fecha_inicio": "2025-07-31T00:00:00.000Z",
+        "estado": "en proceso",
+        "fecha_finalizacion": null,
+        "observacion": ""
+    },
+    {
+        "id": "mdrjombd1sk9ewiyhrk",
+        "usuario": "egreve",
+        "cliente": "DORINKA",
+        "tarea_id": "mdqcqqskjtu22t9rdg",
+        "cantidad": 2,
+        "fecha_inicio": "2025-07-31T00:00:00.000Z",
+        "estado": "en proceso",
+        "fecha_finalizacion": null,
+        "observacion": ""
+    }
+]

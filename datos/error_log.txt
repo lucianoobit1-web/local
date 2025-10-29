@@ -1,0 +1,46 @@
+[2025-06-23 16:34:34.148612] Fila incompleta en datos\facturas.csv: ['n_factura', 'cliente', 'importe', 'observacion', 'rubro', 'fecha_emision', 'pagado', 'fecha_pago', 'mes_anterior']
+[2025-06-23 16:34:34.149347] Fila incompleta en datos\facturas.csv: ['FC 00002653', 'DORINKA', '47000000.00', 'CHEQUE - IMPUESTO 1000000', 'JUGUETES', '19/07/2025', 'si', '19/07/2025', '']
+[2025-06-23 16:34:34.150052] Fila incompleta en datos\facturas.csv: ['FC 00001259', 'M. ACOSTA', '350000.00', 'CHEQUE', 'JUGUETES', '19/06/2025', 'si', '19/06/2025', '']
+[2025-06-23 16:34:34.150869] Fila incompleta en datos\facturas.csv: ['FC 00001568', 'DORINKA', '15000000.00', 'TRANSFERENCIA', 'JUGUETES', '19/06/2025', 'si', '21/06/2025', '']
+[2025-06-23 16:34:34.152001] Fila incompleta en datos\facturas.csv: ['FC00002563', 'DORINKA', '48503605.25', 'CHEQUE', 'juguetes', '19/06/2025', 'si', '18/07/2025', '']
+[2025-06-23 16:34:34.152677] Fila incompleta en datos\facturas.csv: ['FC 0000526', 'DORINKA', '15000003.00', 'ASD', 'ASD', '19/06/2025', 'si', '21/07/2025', '']
+[2025-06-23 16:34:34.153322] Fila incompleta en datos\facturas.csv: ['FC 00002636', 'DORINKA', '150000.00', 'ASD', 'ASD', '19/06/2025', 'si', '22/06/2025', '']
+[2025-06-23 16:34:34.153933] Fila incompleta en datos\facturas.csv: ['FC 00001523', 'DORINKA', '123560.00', 'TRANS', 'EPP', '22/06/2025', 'si', '22/06/2025', '']
+[2025-06-23 16:38:52.226753] Fila incompleta en datos\facturas.csv: ['n_factura', 'cliente', 'importe', 'observacion', 'rubro', 'fecha_emision', 'pagado', 'fecha_pago', 'mes_anterior']
+[2025-06-23 16:38:52.228231] Fila incompleta en datos\facturas.csv: ['FC 00002653', 'DORINKA', '47000000.00', 'CHEQUE - IMPUESTO 1000000', 'JUGUETES', '19/07/2025', 'si', '19/07/2025', '']
+[2025-06-23 16:38:52.229339] Fila incompleta en datos\facturas.csv: ['FC 00001259', 'M. ACOSTA', '350000.00', 'CHEQUE', 'JUGUETES', '19/06/2025', 'si', '19/06/2025', '']
+[2025-06-23 16:38:52.231671] Fila incompleta en datos\facturas.csv: ['FC 00001568', 'DORINKA', '15000000.00', 'TRANSFERENCIA', 'JUGUETES', '19/06/2025', 'si', '21/06/2025', '']
+[2025-06-23 16:38:52.232267] Fila incompleta en datos\facturas.csv: ['FC00002563', 'DORINKA', '48503605.25', 'CHEQUE', 'juguetes', '19/06/2025', 'si', '18/07/2025', '']
+[2025-06-23 16:38:52.232768] Fila incompleta en datos\facturas.csv: ['FC 0000526', 'DORINKA', '15000003.00', 'ASD', 'ASD', '19/06/2025', 'si', '21/07/2025', '']
+[2025-06-23 16:38:52.233266] Fila incompleta en datos\facturas.csv: ['FC 00002636', 'DORINKA', '150000.00', 'ASD', 'ASD', '19/06/2025', 'si', '22/06/2025', '']
+[2025-06-23 16:38:52.234338] Fila incompleta en datos\facturas.csv: ['FC 00001523', 'DORINKA', '123560.00', 'TRANS', 'EPP', '22/06/2025', 'si', '22/06/2025', '']
+[2025-06-25 09:38:27] ERROR: Error agregando remito: 'RemitosFrame' object has no attribute 'movimientos_en_pantalla'
+Traceback (most recent call last):
+  File "C:\Users\notebook\Desktop\APP NUEVA JYM ACTUALIZADA\GESTOR.py", line 3353, in guardar_remito
+    self.mostrar_remitos()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\notebook\Desktop\APP NUEVA JYM ACTUALIZADA\GESTOR.py", line 3264, in mostrar_remitos
+    self.movimientos_en_pantalla.append({"widgets": row_widgets, "data": remito})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'RemitosFrame' object has no attribute 'movimientos_en_pantalla'
+
+[2025-06-25 09:39:21] ERROR: Error agregando remito: 'RemitosFrame' object has no attribute 'movimientos_en_pantalla'
+Traceback (most recent call last):
+  File "C:\Users\notebook\Desktop\APP NUEVA JYM ACTUALIZADA\GESTOR.py", line 3353, in guardar_remito
+    self.mostrar_remitos()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\notebook\Desktop\APP NUEVA JYM ACTUALIZADA\GESTOR.py", line 3264, in mostrar_remitos
+    self.movimientos_en_pantalla.append({"widgets": row_widgets, "data": remito})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'RemitosFrame' object has no attribute 'movimientos_en_pantalla'
+
+[2025-06-25 09:40:17] ERROR: Error deshaciendo acción en Remitos: 'RemitosFrame' object has no attribute 'movimientos_en_pantalla'
+Traceback (most recent call last):
+  File "C:\Users\notebook\Desktop\APP NUEVA JYM ACTUALIZADA\GESTOR.py", line 3202, in deshacer_accion_remitos
+    self.mostrar_remitos()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\notebook\Desktop\APP NUEVA JYM ACTUALIZADA\GESTOR.py", line 3264, in mostrar_remitos
+    self.movimientos_en_pantalla.append({"widgets": row_widgets, "data": remito})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'RemitosFrame' object has no attribute 'movimientos_en_pantalla'
+

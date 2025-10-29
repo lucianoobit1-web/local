@@ -1,0 +1,87 @@
+[
+    {
+        "id": "mh0tekiewgvlq7pnmtn",
+        "tipo": "concepto",
+        "descripcion": "COLLARES",
+        "codigo": "",
+        "padre_id": "",
+        "price_history": []
+    },
+    {
+        "id": "mh0teu7p4inf9opih6",
+        "tipo": "titulo",
+        "descripcion": "Collares",
+        "codigo": "",
+        "padre_id": "mh0tekiewgvlq7pnmtn",
+        "price_history": []
+    },
+    {
+        "id": "mh0tfa4z7r5pksd3m8c",
+        "tipo": "item",
+        "descripcion": "COLLAR ROJO",
+        "codigo": "COD01",
+        "padre_id": "mh0teu7p4inf9opih6",
+        "price_history": [
+            {
+                "date": "2025-10-01",
+                "price": 4000
+            }
+        ]
+    },
+    {
+        "id": "mh0tfkrlv2mvzbgnm3",
+        "tipo": "item",
+        "descripcion": "COLLAR VERDE",
+        "codigo": "COD02",
+        "padre_id": "mh0teu7p4inf9opih6",
+        "price_history": [
+            {
+                "date": "2025-10-01",
+                "price": 4200
+            }
+        ],
+        "costo": 150
+    },
+    {
+        "id": "mh0tfucj90c0bx0bhmr",
+        "tipo": "item",
+        "descripcion": "COLLAR AMARILLO",
+        "codigo": "COD03",
+        "padre_id": "mh0teu7p4inf9opih6",
+        "price_history": [
+            {
+                "date": "2025-10-01",
+                "price": 5000
+            }
+        ],
+        "costo": 1500
+    },
+    {
+        "id": "mh11ionvtxmb4wg2ril",
+        "tipo": "item",
+        "descripcion": "COLLAR NEGRO",
+        "codigo": "COD05",
+        "padre_id": "mh0teu7p4inf9opih6",
+        "price_history": [
+            {
+                "date": "2025-10-01",
+                "price": 2000
+            }
+        ],
+        "costo": 1000,
+        "children": []
+    },
+    {
+        "id": "mh1wwvga4l58v7d2hx7",
+        "tipo": "item",
+        "descripcion": "COLLAR MULTICOLOR",
+        "codigo": "COD080",
+        "padre_id": "mh0teu7p4inf9opih6",
+        "price_history": [
+            {
+                "date": "2025-10-01",
+                "price": 1000
+            }
+        ]
+    }
+]

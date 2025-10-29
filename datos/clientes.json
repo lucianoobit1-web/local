@@ -1,0 +1,348 @@
+[
+    {
+        "id": "31862a04-4f3f-4107-a7fa-e53f8669437d",
+        "nombre": "DORINKA",
+        "cuit": "20-37679292-1"
+    },
+    {
+        "id": "2617f120-f8f4-4616-80de-3933bc6463d5",
+        "nombre": "ASDASD",
+        "cuit": "QWEASD"
+    },
+    {
+        "id": "664de452-5c7c-4b37-bdfa-15956f16c3f1",
+        "nombre": "EFWEF",
+        "cuit": "ASDASD"
+    },
+    {
+        "id": "ee083557-2bd7-4fe6-9e2a-a4359defb096",
+        "nombre": "ROCKE",
+        "cuit": "15132165412"
+    },
+    {
+        "id": "da90e6ea-d5d6-4c3e-82bd-ff3bc00a7d84",
+        "nombre": "AUTOS",
+        "cuit": "20-3765945-4"
+    },
+    {
+        "id": "baefd4a4-57d5-48b4-b691-2a7aa1bb713a",
+        "nombre": "pepe",
+        "cuit": "pepe"
+    },
+    {
+        "id": "4fe2ac7c-30ea-49a8-9487-1beddb0effa7",
+        "nombre": "DONATELLO",
+        "cuit": "342"
+    },
+    {
+        "id": "a9cc8fce-a82b-4706-bb56-f4c1cf9c2b0b",
+        "nombre": "SOLOMUN",
+        "cuit": "30-37679029-2"
+    },
+    {
+        "id": "41f1ad82-1564-43cb-9869-badc46a9b0d4",
+        "nombre": "DFGD",
+        "cuit": "123"
+    },
+    {
+        "id": "7127b099-558f-422c-98e3-22cdf01ea6c3",
+        "numero": 10,
+        "direccion": "DR. FELIPE IANNONE 1029",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "9d3cdd5f-98f3-417b-8803-2aa205e72bb4",
+        "numero": 11,
+        "direccion": "ALVEAR 2359",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "267bcaf2-1e9c-4d3b-8563-8a8c3c261b97",
+        "numero": 12,
+        "direccion": "METAN 3815",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "7128b30c-cd01-44f4-96e1-91cda8e49d30",
+        "numero": 13,
+        "direccion": "asd",
+        "cantidad_pedidos": 3,
+        "ultimo_pedido_fecha": "2025-10-21T08:06:25.787499"
+    },
+    {
+        "id": "4aae361e-0bf8-41c7-9ac2-5c3c8061e73f",
+        "numero": 14,
+        "direccion": "undefined",
+        "cantidad_pedidos": 14,
+        "ultimo_pedido_fecha": "2025-08-23T22:46:58.118079"
+    },
+    {
+        "id": "bc3a2f5a-bf1b-4daa-a740-a8040669e98f",
+        "numero": 15,
+        "direccion": "ZULMA",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "e07d725d-3f9f-4882-869c-44d76f2e46ba",
+        "numero": 16,
+        "direccion": "CUÑADA EDU",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "d35d04b1-d5a5-403c-a01f-026fd690cf3a",
+        "numero": 17,
+        "direccion": "TIO NAHUE",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "b44bc7e2-4f80-4a81-9a16-a4d3f8a94aa5",
+        "numero": 18,
+        "direccion": "DIEGO",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "4581178e-1d61-4fbf-81b9-21359ba4197c",
+        "numero": 19,
+        "direccion": "BRYAN - SIN PAPAS",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "0eb23038-dbfe-4769-a999-4b5a126fe3c4",
+        "numero": 20,
+        "direccion": "MAGA BON",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "cae16200-5824-46d0-bae5-4660dd5ff710",
+        "numero": 21,
+        "direccion": "MAURO",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "369df1d3-6bf6-4e98-9fbf-2a56db6ec609",
+        "numero": 22,
+        "direccion": "JUAN",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "e64bf932-f3c9-4595-b5be-0c373ca2e785",
+        "numero": 23,
+        "direccion": "MARTIN",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "b4c1cb66-b72a-4070-9674-a9b604c24532",
+        "numero": 24,
+        "direccion": "ERI",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "9467a267-fb62-4fc1-88bc-6be0c9fa9cc9",
+        "numero": 25,
+        "direccion": "JOAQUIN",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "25790ed8-21e5-4d6b-9c74-f94c00e2b85d",
+        "numero": 26,
+        "direccion": "NAHUE",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "8b0f2508-8cd6-44fa-b30b-92e8e138f2a8",
+        "numero": 27,
+        "direccion": "BRYAN - 10MIL (3175 EN EGRESOS) - BANCO",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "9f725897-7fb4-4604-b324-58e3d99b3d15",
+        "numero": 28,
+        "direccion": "PEDIDO ERI - RAPPI",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "dc6daa3e-c387-40dd-857c-c7732baf7628",
+        "numero": 29,
+        "direccion": "TIO NAHUE - BANCO",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "21bbd4c1-9d16-4019-b4b6-28005ad47868",
+        "numero": 30,
+        "direccion": "PIPO - RAPPI",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "211de3a4-d9a4-4846-857a-fa49d45c3ebd",
+        "numero": 31,
+        "direccion": "AMIGA MIRTA - BANCO",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "b8f8d7f3-f82b-4d6b-b7e2-e396b24986d0",
+        "numero": 32,
+        "direccion": "EZEQUIEL - AMIGO DARO - RAPPI",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "86574d39-6332-405c-a341-ce06c5ea4593",
+        "numero": 33,
+        "direccion": "LUCIANO (DESCONOCIDO) - RAPPI",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "7825417e-38c8-4a9c-9b73-23c076b7eb23",
+        "numero": 34,
+        "direccion": "ZULMA - AMIGA MIRTA",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "4c947d73-224a-4b1a-82c0-729163c585f8",
+        "numero": 35,
+        "direccion": "LUCIANO (DESCONOCIDO) RAPPI",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "a2d2efe2-fcf3-402d-bfbb-c90c29b82a8d",
+        "numero": 36,
+        "direccion": "MACA - BANCO",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "435c59b2-cee5-4885-9185-7c3579ccd231",
+        "numero": 37,
+        "direccion": "et",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "3b0606eb-855f-45b8-90d6-9203fe1b420c",
+        "numero": 38,
+        "direccion": "Y",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "48331b4b-0690-4568-b76a-14c0fc86c046",
+        "numero": 39,
+        "direccion": "1",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "92cab18b-2729-417b-a875-cc6a5b53ea4c",
+        "numero": 40,
+        "direccion": "ljj",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "843d3746-efcc-41e3-8dd4-5b5e7535d9e5",
+        "numero": 41,
+        "direccion": "H",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "667cfb5b-0352-4d3f-861d-8cee25ee5559",
+        "numero": 42,
+        "direccion": "VIERNES",
+        "cantidad_pedidos": 5,
+        "ultimo_pedido_fecha": "2025-09-16T13:49:27.006037"
+    },
+    {
+        "id": "f1d09247-3fd0-45c2-8faf-99e5114fe1a5",
+        "numero": 43,
+        "direccion": "SABADO",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "43fd63ca-2b55-4d04-b00f-c2d957bb94da",
+        "numero": 44,
+        "direccion": "AMIGOS DE DARO",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "1f4529c4-6c2e-4a6c-a322-7497f7a0e1b9",
+        "numero": 45,
+        "direccion": "PEDIDO DE PAPAS",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "726eb297-b60f-41e6-b781-abcaaec1aa9c",
+        "numero": 46,
+        "direccion": "BRYAN - 10MIL (3175 EN EGRESOS) - BANCOtg",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "b0197a55-948c-4af2-bbde-bc36c052f4f6",
+        "numero": 47,
+        "direccion": "HUMBOLDT 465",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "b10a9f3b-21ac-4d7d-99d8-6433a6b4753f",
+        "numero": 48,
+        "direccion": "MILHOVER",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "a7dd64f6-bb14-498e-bbd1-56ae6167b4a2",
+        "numero": 49,
+        "direccion": "LOCAL",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "fccb0c8a-4c30-469f-8a1d-019932eca2d4",
+        "numero": 50,
+        "direccion": "INTERNET",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    },
+    {
+        "id": "da9eaa4c-c1a7-4405-bf27-04fccf37efd4",
+        "numero": 51,
+        "direccion": "sd",
+        "cantidad_pedidos": 1,
+        "ultimo_pedido_fecha": "2025-10-21T07:53:08.898086"
+    },
+    {
+        "id": "20cc0edf-4a86-46d8-a2bb-c590790067ff",
+        "numero": 52,
+        "direccion": "ASDDS",
+        "cantidad_pedidos": 0,
+        "ultimo_pedido_fecha": null
+    }
+]

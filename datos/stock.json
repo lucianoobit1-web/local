@@ -1,0 +1,45 @@
+[
+    {
+        "id": "6c586026-e2c2-48ba-8650-573745140381",
+        "tipo": "titulo",
+        "descripcion": "COLLARES"
+    },
+    {
+        "id": "9e714acb-41ae-4031-96c7-1a73754576c9",
+        "tipo": "producto",
+        "descripcion": "COLLAR ROJO",
+        "codigo": "COD01",
+        "padre_id": "6c586026-e2c2-48ba-8650-573745140381",
+        "cantidad": 10.0
+    },
+    {
+        "id": "07fce9f6-fe82-427f-b683-2a99704966d7",
+        "tipo": "producto",
+        "descripcion": "COLLAR VERDE",
+        "codigo": "COD02",
+        "padre_id": "6c586026-e2c2-48ba-8650-573745140381",
+        "cantidad": 10.0
+    },
+    {
+        "id": "74952aa7-69b9-452d-ac74-3804daaef4f8",
+        "tipo": "producto",
+        "descripcion": "COLLAR AMARILLO",
+        "codigo": "COD03",
+        "padre_id": "6c586026-e2c2-48ba-8650-573745140381",
+        "cantidad": 10.0
+    },
+    {
+        "id": "8ba86aa1-8043-4657-8696-c902c8669108",
+        "tipo": "titulo",
+        "descripcion": "CORREAS"
+    },
+    {
+        "id": "da660b4c-6ece-4e6a-bae5-110288bdeb11",
+        "tipo": "producto",
+        "descripcion": "CORREA ROJA",
+        "codigo": "COD04",
+        "padre_id": "8ba86aa1-8043-4657-8696-c902c8669108",
+        "cantidad": 0.0,
+        "children": []
+    }
+]

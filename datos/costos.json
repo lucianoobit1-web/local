@@ -1,0 +1,961 @@
+{
+    "hamburguesas": [
+        {
+            "costoTotal": 34.1,
+            "id": "meinawulwxma7irg1a",
+            "ingredientes": [
+                {
+                    "cantidad": 1,
+                    "id": "mehmzo03g94lfw9w22u",
+                    "nombre": "AMORTIZACION PLANCHETA"
+                }
+            ],
+            "nombre": "1) NOTA: HAMBURGUESAS SIMPLES -$1200 - HAMBURGUESAS TRIPLES +$1200"
+        },
+        {
+            "costoTotal": 6133.158690476191,
+            "id": "meimyqxlqykflhadja",
+            "ingredientes": [
+                {
+                    "cantidad": 1,
+                    "id": "mehmzo03g94lfw9w22u",
+                    "nombre": "AMORTIZACION PLANCHETA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmk5yjx1fsu0340pp",
+                    "nombre": "CAJAS P/ HAMBUR."
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                },
+                {
+                    "cantidad": 333.3,
+                    "id": "mehq9grkt2ns2hly6j",
+                    "nombre": "GARRAFA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehplanx45udg99v1n",
+                    "nombre": "GRASA PELLA"
+                },
+                {
+                    "cantidad": 20,
+                    "id": "mehq32nlrcidoo0vbrg",
+                    "nombre": "LECHUGA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehn195k86knh2d1o0d",
+                    "nombre": "MARKETING"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmtkiptfcyzsqahp",
+                    "nombre": "PAN DE PAPA"
+                },
+                {
+                    "cantidad": 250,
+                    "id": "mehmx9l90oz5z4jr913l",
+                    "nombre": "PAPAS COOLMIND CRISTAL TRADICIONAL 14KG"
+                },
+                {
+                    "cantidad": 0.5,
+                    "id": "mehmrjux01dh3sfzsspy",
+                    "nombre": "PAPEL PARAFINADO 25X40"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmq5gglya93k85y5",
+                    "nombre": "PAPEL TERMICO P/ HAMBUR."
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 200,
+                    "id": "mehq1d2rb3qb61qwriu",
+                    "nombre": "TOMATE"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                }
+            ],
+            "nombre": "BIG BURGER DOBLE"
+        },
+        {
+            "costoTotal": 4652.563452380952,
+            "id": "mfctc4cfytx2q3y2b6r",
+            "ingredientes": [
+                {
+                    "cantidad": 1,
+                    "id": "mehmzo03g94lfw9w22u",
+                    "nombre": "AMORTIZACION PLANCHETA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmk5yjx1fsu0340pp",
+                    "nombre": "CAJAS P/ HAMBUR."
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                },
+                {
+                    "cantidad": 333.3,
+                    "id": "mehq9grkt2ns2hly6j",
+                    "nombre": "GARRAFA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehplanx45udg99v1n",
+                    "nombre": "GRASA PELLA"
+                },
+                {
+                    "cantidad": 20,
+                    "id": "mehq32nlrcidoo0vbrg",
+                    "nombre": "LECHUGA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmtkiptfcyzsqahp",
+                    "nombre": "PAN DE PAPA"
+                },
+                {
+                    "cantidad": 250,
+                    "id": "mehmx9l90oz5z4jr913l",
+                    "nombre": "PAPAS COOLMIND CRISTAL TRADICIONAL 14KG"
+                },
+                {
+                    "cantidad": 0.5,
+                    "id": "mehmrjux01dh3sfzsspy",
+                    "nombre": "PAPEL PARAFINADO 25X40"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmq5gglya93k85y5",
+                    "nombre": "PAPEL TERMICO P/ HAMBUR."
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 200,
+                    "id": "mehq1d2rb3qb61qwriu",
+                    "nombre": "TOMATE"
+                }
+            ],
+            "nombre": "BIG BURGER SIMPLE"
+        },
+        {
+            "costoTotal": 5355.158690476191,
+            "id": "mehqqlnp06p3aqvdpi7",
+            "ingredientes": [
+                {
+                    "cantidad": 1,
+                    "id": "mehmzo03g94lfw9w22u",
+                    "nombre": "AMORTIZACION PLANCHETA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmk5yjx1fsu0340pp",
+                    "nombre": "CAJAS P/ HAMBUR."
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                },
+                {
+                    "cantidad": 333.3,
+                    "id": "mehq9grkt2ns2hly6j",
+                    "nombre": "GARRAFA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehplanx45udg99v1n",
+                    "nombre": "GRASA PELLA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehn195k86knh2d1o0d",
+                    "nombre": "MARKETING"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmtkiptfcyzsqahp",
+                    "nombre": "PAN DE PAPA"
+                },
+                {
+                    "cantidad": 250,
+                    "id": "mehmx9l90oz5z4jr913l",
+                    "nombre": "PAPAS COOLMIND CRISTAL TRADICIONAL 14KG"
+                },
+                {
+                    "cantidad": 0.5,
+                    "id": "mehmrjux01dh3sfzsspy",
+                    "nombre": "PAPEL PARAFINADO 25X40"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmq5gglya93k85y5",
+                    "nombre": "PAPEL TERMICO P/ HAMBUR."
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                }
+            ],
+            "nombre": "CHEESE BURGER DOBLE"
+        },
+        {
+            "costoTotal": 3874.563452380953,
+            "id": "mfcteavhs4prcxs37ab",
+            "ingredientes": [
+                {
+                    "cantidad": 1,
+                    "id": "mehmzo03g94lfw9w22u",
+                    "nombre": "AMORTIZACION PLANCHETA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmk5yjx1fsu0340pp",
+                    "nombre": "CAJAS P/ HAMBUR."
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                },
+                {
+                    "cantidad": 333.3,
+                    "id": "mehq9grkt2ns2hly6j",
+                    "nombre": "GARRAFA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehplanx45udg99v1n",
+                    "nombre": "GRASA PELLA"
+                },
+                {
+                    "cantidad": 250,
+                    "id": "mehmx9l90oz5z4jr913l",
+                    "nombre": "PAPAS COOLMIND CRISTAL TRADICIONAL 14KG"
+                },
+                {
+                    "cantidad": 0.5,
+                    "id": "mehmrjux01dh3sfzsspy",
+                    "nombre": "PAPEL PARAFINADO 25X40"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmq5gglya93k85y5",
+                    "nombre": "PAPEL TERMICO P/ HAMBUR."
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmtkiptfcyzsqahp",
+                    "nombre": "PAN DE PAPA"
+                }
+            ],
+            "nombre": "CHEESE BURGER SIMPLE"
+        },
+        {
+            "costoTotal": 5846.758690476192,
+            "id": "meimkil19us0vpbzf",
+            "ingredientes": [
+                {
+                    "cantidad": 1,
+                    "id": "mehmzo03g94lfw9w22u",
+                    "nombre": "AMORTIZACION PLANCHETA"
+                },
+                {
+                    "cantidad": 12,
+                    "id": "mehqe7op1agkup5w7ck",
+                    "nombre": "BACON"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmk5yjx1fsu0340pp",
+                    "nombre": "CAJAS P/ HAMBUR."
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                },
+                {
+                    "cantidad": 250,
+                    "id": "mehpvjk8xlowc4yo3s",
+                    "nombre": "CEBOLLA"
+                },
+                {
+                    "cantidad": 333.3,
+                    "id": "mehq9grkt2ns2hly6j",
+                    "nombre": "GARRAFA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehplanx45udg99v1n",
+                    "nombre": "GRASA PELLA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehn195k86knh2d1o0d",
+                    "nombre": "MARKETING"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmtkiptfcyzsqahp",
+                    "nombre": "PAN DE PAPA"
+                },
+                {
+                    "cantidad": 150,
+                    "id": "mehmx9l90oz5z4jr913l",
+                    "nombre": "PAPAS FRITAS SIMPLOT CORTE TRADICIONAL"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmrjux01dh3sfzsspy",
+                    "nombre": "PAPEL PARAFINADO 25X40"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmq5gglya93k85y5",
+                    "nombre": "PAPEL TERMICO P/ HAMBUR."
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                }
+            ],
+            "nombre": "CRT BURGER DOBLE"
+        },
+        {
+            "costoTotal": 5705.158690476192,
+            "id": "mehqshl55u01mj1adi4",
+            "ingredientes": [
+                {
+                    "cantidad": 1,
+                    "id": "mehmzo03g94lfw9w22u",
+                    "nombre": "AMORTIZACION PLANCHETA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmk5yjx1fsu0340pp",
+                    "nombre": "CAJAS P/ HAMBUR."
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                },
+                {
+                    "cantidad": 250,
+                    "id": "mehpvjk8xlowc4yo3s",
+                    "nombre": "CEBOLLA"
+                },
+                {
+                    "cantidad": 333.3,
+                    "id": "mehq9grkt2ns2hly6j",
+                    "nombre": "GARRAFA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehplanx45udg99v1n",
+                    "nombre": "GRASA PELLA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehn195k86knh2d1o0d",
+                    "nombre": "MARKETING"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmtkiptfcyzsqahp",
+                    "nombre": "PAN DE PAPA"
+                },
+                {
+                    "cantidad": 150,
+                    "id": "mehmx9l90oz5z4jr913l",
+                    "nombre": "PAPAS FRITAS SIMPLOT CORTE TRADICIONAL"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmrjux01dh3sfzsspy",
+                    "nombre": "PAPEL PARAFINADO 25X40"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmq5gglya93k85y5",
+                    "nombre": "PAPEL TERMICO P/ HAMBUR."
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                }
+            ],
+            "nombre": "ONION BURGER DOBLE"
+        },
+        {
+            "costoTotal": 6689.678690476191,
+            "id": "meimx45dqdvh601mey",
+            "ingredientes": [
+                {
+                    "cantidad": 1,
+                    "id": "mehmzo03g94lfw9w22u",
+                    "nombre": "AMORTIZACION PLANCHETA"
+                },
+                {
+                    "cantidad": 12,
+                    "id": "mehqe7op1agkup5w7ck",
+                    "nombre": "BACON"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmk5yjx1fsu0340pp",
+                    "nombre": "CAJAS P/ HAMBUR."
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                },
+                {
+                    "cantidad": 250,
+                    "id": "mehpvjk8xlowc4yo3s",
+                    "nombre": "CEBOLLA"
+                },
+                {
+                    "cantidad": 333.3,
+                    "id": "mehq9grkt2ns2hly6j",
+                    "nombre": "GARRAFA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehplanx45udg99v1n",
+                    "nombre": "GRASA PELLA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehn195k86knh2d1o0d",
+                    "nombre": "MARKETING"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmtkiptfcyzsqahp",
+                    "nombre": "PAN DE PAPA"
+                },
+                {
+                    "cantidad": 250,
+                    "id": "mehmx9l90oz5z4jr913l",
+                    "nombre": "PAPAS COOLMIND CRISTAL TRADICIONAL 14KG"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmrjux01dh3sfzsspy",
+                    "nombre": "PAPEL PARAFINADO 25X40"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmq5gglya93k85y5",
+                    "nombre": "PAPEL TERMICO P/ HAMBUR."
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 12,
+                    "id": "mehqhdtzjqqdyoepkuh",
+                    "nombre": "SALSA BARBACOA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mf376nec39wuxkdgj56",
+                    "nombre": "PAN BRIOCHE"
+                }
+            ],
+            "nombre": "SMOKE BBQ DOBLE"
+        },
+        {
+            "costoTotal": 5509.478690476191,
+            "id": "meimvbv37ay37roa7qa",
+            "ingredientes": [
+                {
+                    "cantidad": 1,
+                    "id": "mehmzo03g94lfw9w22u",
+                    "nombre": "AMORTIZACION PLANCHETA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmk5yjx1fsu0340pp",
+                    "nombre": "CAJAS P/ HAMBUR."
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                },
+                {
+                    "cantidad": 333.3,
+                    "id": "mehq9grkt2ns2hly6j",
+                    "nombre": "GARRAFA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehplanx45udg99v1n",
+                    "nombre": "GRASA PELLA"
+                },
+                {
+                    "cantidad": 12,
+                    "id": "mehqiktitxz6og21xd",
+                    "nombre": "MANTECA CARREFOUR"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehn195k86knh2d1o0d",
+                    "nombre": "MARKETING"
+                },
+                {
+                    "cantidad": 250,
+                    "id": "mehmx9l90oz5z4jr913l",
+                    "nombre": "PAPAS COOLMIND CRISTAL TRADICIONAL 14KG"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmrjux01dh3sfzsspy",
+                    "nombre": "PAPEL PARAFINADO 25X40"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmq5gglya93k85y5",
+                    "nombre": "PAPEL TERMICO P/ HAMBUR."
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mf376nec39wuxkdgj56",
+                    "nombre": "PAN BRIOCHE"
+                }
+            ],
+            "nombre": "SMOKE BUTTER DOBLE"
+        },
+        {
+            "costoTotal": 5496.758690476192,
+            "id": "mehqv52xvae7jcdh1pn",
+            "ingredientes": [
+                {
+                    "cantidad": 1,
+                    "id": "mehmzo03g94lfw9w22u",
+                    "nombre": "AMORTIZACION PLANCHETA"
+                },
+                {
+                    "cantidad": 12,
+                    "id": "mehqe7op1agkup5w7ck",
+                    "nombre": "BACON"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmk5yjx1fsu0340pp",
+                    "nombre": "CAJAS P/ HAMBUR."
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                },
+                {
+                    "cantidad": 100,
+                    "id": "mehlovvh8lbio3fkw7m",
+                    "nombre": "CARNE ROAST BEEF"
+                },
+                {
+                    "cantidad": 333.3,
+                    "id": "mehq9grkt2ns2hly6j",
+                    "nombre": "GARRAFA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehplanx45udg99v1n",
+                    "nombre": "GRASA PELLA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehn195k86knh2d1o0d",
+                    "nombre": "MARKETING"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmtkiptfcyzsqahp",
+                    "nombre": "PAN DE PAPA"
+                },
+                {
+                    "cantidad": 150,
+                    "id": "mehmx9l90oz5z4jr913l",
+                    "nombre": "PAPAS FRITAS SIMPLOT CORTE TRADICIONAL"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmrjux01dh3sfzsspy",
+                    "nombre": "PAPEL PARAFINADO 25X40"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmq5gglya93k85y5",
+                    "nombre": "PAPEL TERMICO P/ HAMBUR."
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                },
+                {
+                    "cantidad": 1,
+                    "id": "mehmvlbzblbro15gl1g",
+                    "nombre": "QUESO CHEDDAR TONADITA"
+                }
+            ],
+            "nombre": "STACK BURGER DOBLE"
+        }
+    ],
+    "ingredientes": [
+        {
+            "cantidadBase": 1,
+            "costoBase": 34.1,
+            "costoPorUnidad": 34.1,
+            "costoRealPorHamburguesa": 34.1,
+            "id": "mehmzo03g94lfw9w22u",
+            "nombre": "AMORTIZACION PLANCHETA",
+            "usoPorHamburguesa": 1
+        },
+        {
+            "cantidadBase": 800,
+            "costoBase": 9440,
+            "costoPorUnidad": 11.8,
+            "costoRealPorHamburguesa": 141.60000000000002,
+            "id": "mehqe7op1agkup5w7ck",
+            "nombre": "BACON",
+            "usoPorHamburguesa": 12
+        },
+        {
+            "cantidadBase": 1,
+            "costoBase": 171,
+            "costoPorUnidad": 171,
+            "costoRealPorHamburguesa": 171,
+            "id": "mehmk5yjx1fsu0340pp",
+            "nombre": "CAJAS P/ HAMBUR.",
+            "usoPorHamburguesa": 1
+        },
+        {
+            "cantidadBase": 1000,
+            "costoBase": 9400,
+            "costoPorUnidad": 9.4,
+            "costoRealPorHamburguesa": 940,
+            "id": "mehlovvh8lbio3fkw7m",
+            "nombre": "CARNE ROAST BEEF",
+            "usoPorHamburguesa": 100
+        },
+        {
+            "cantidadBase": 1000,
+            "costoBase": 1400,
+            "costoPorUnidad": 1.4,
+            "costoRealPorHamburguesa": 350,
+            "id": "mehpvjk8xlowc4yo3s",
+            "nombre": "CEBOLLA",
+            "usoPorHamburguesa": 250
+        },
+        {
+            "cantidadBase": 1,
+            "costoBase": 3000,
+            "costoPorUnidad": 3000,
+            "costoRealPorHamburguesa": 3000,
+            "id": "mehnhmy1yzpw3ta8lsr",
+            "nombre": "DELIVERY Y % RAPPI",
+            "usoPorHamburguesa": 1
+        },
+        {
+            "cantidadBase": 10000,
+            "costoBase": 23000,
+            "costoPorUnidad": 2.3,
+            "costoRealPorHamburguesa": 766.5899999999999,
+            "id": "mehq9grkt2ns2hly6j",
+            "nombre": "GARRAFA",
+            "usoPorHamburguesa": 333.3
+        },
+        {
+            "cantidadBase": 1,
+            "costoBase": 12.63,
+            "costoPorUnidad": 12.63,
+            "costoRealPorHamburguesa": 12.63,
+            "id": "mehplanx45udg99v1n",
+            "nombre": "GRASA PELLA",
+            "usoPorHamburguesa": 1
+        },
+        {
+            "cantidadBase": 1000,
+            "costoBase": 4000,
+            "costoPorUnidad": 4,
+            "costoRealPorHamburguesa": 80,
+            "id": "mehq32nlrcidoo0vbrg",
+            "nombre": "LECHUGA",
+            "usoPorHamburguesa": 20
+        },
+        {
+            "cantidadBase": 1000,
+            "costoBase": 12860,
+            "costoPorUnidad": 12.86,
+            "costoRealPorHamburguesa": 154.32,
+            "id": "mehqiktitxz6og21xd",
+            "nombre": "MANTECA",
+            "usoPorHamburguesa": 12
+        },
+        {
+            "cantidadBase": 240,
+            "costoBase": 60000,
+            "costoPorUnidad": 250,
+            "costoRealPorHamburguesa": 250,
+            "id": "mehn195k86knh2d1o0d",
+            "nombre": "MARKETING",
+            "usoPorHamburguesa": 1
+        },
+        {
+            "cantidadBase": 1,
+            "costoBase": 773.8,
+            "costoPorUnidad": 773.8,
+            "costoRealPorHamburguesa": 773.8,
+            "id": "mf376nec39wuxkdgj56",
+            "nombre": "PAN BRIOCHE",
+            "usoPorHamburguesa": 1
+        },
+        {
+            "cantidadBase": 100,
+            "costoBase": 77380,
+            "costoPorUnidad": 773.8,
+            "costoRealPorHamburguesa": 773.8,
+            "id": "mehmtkiptfcyzsqahp",
+            "nombre": "PAN DE PAPA",
+            "usoPorHamburguesa": 1
+        },
+        {
+            "cantidadBase": 14000,
+            "costoBase": 35786,
+            "costoPorUnidad": 2.556142857142857,
+            "costoRealPorHamburguesa": 639.0357142857142,
+            "id": "mehmx9l90oz5z4jr913l",
+            "nombre": "PAPAS COOLMIND CRISTAL TRADICIONAL 14KG",
+            "usoPorHamburguesa": 250
+        },
+        {
+            "cantidadBase": 100,
+            "costoBase": 8193.9,
+            "costoPorUnidad": 81.939,
+            "costoRealPorHamburguesa": 40.9695,
+            "id": "mehmrjux01dh3sfzsspy",
+            "nombre": "PAPEL PARAFINADO 25X40",
+            "usoPorHamburguesa": 0.5
+        },
+        {
+            "cantidadBase": 100,
+            "costoBase": 20584.3,
+            "costoPorUnidad": 205.843,
+            "costoRealPorHamburguesa": 205.843,
+            "id": "mehmq5gglya93k85y5",
+            "nombre": "PAPEL TERMICO P/ HAMBUR.",
+            "usoPorHamburguesa": 1
+        },
+        {
+            "cantidadBase": 100,
+            "costoBase": 8049.87,
+            "costoPorUnidad": 80.4987,
+            "costoRealPorHamburguesa": 80.4987,
+            "id": "mehmobgcjo8zhcen3sd",
+            "nombre": "POTES DEGUSTACION",
+            "usoPorHamburguesa": 1
+        },
+        {
+            "cantidadBase": 336,
+            "costoBase": 48820,
+            "costoPorUnidad": 145.29761904761904,
+            "costoRealPorHamburguesa": 145.29761904761904,
+            "id": "mehmvlbzblbro15gl1g",
+            "nombre": "QUESO CHEDDAR TONADITA",
+            "usoPorHamburguesa": 1
+        },
+        {
+            "cantidadBase": 1000,
+            "costoBase": 5760,
+            "costoPorUnidad": 5.76,
+            "costoRealPorHamburguesa": 69.12,
+            "id": "mehqhdtzjqqdyoepkuh",
+            "nombre": "SALSA BARBACOA",
+            "usoPorHamburguesa": 12
+        },
+        {
+            "cantidadBase": 1000,
+            "costoBase": 3490,
+            "costoPorUnidad": 3.49,
+            "costoRealPorHamburguesa": 698,
+            "id": "mehq1d2rb3qb61qwriu",
+            "nombre": "TOMATE",
+            "usoPorHamburguesa": 200
+        }
+    ]
+}

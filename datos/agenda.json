@@ -1,0 +1,22 @@
+{
+    "2025-07-31": [
+        {
+            "creadoPor": "egreve",
+            "estado": "pendiente",
+            "horario": "",
+            "id": "mdrh1ptexlfmd9ynix",
+            "observacion": "",
+            "tipo": "tarea",
+            "titulo": "HACER FACTURACION"
+        },
+        {
+            "id": "mdrh23fk0mwqs8vbkual",
+            "titulo": "DORINKA",
+            "estado": "pendiente",
+            "tipo": "reunion",
+            "creadoPor": "egreve",
+            "horario": "11:00",
+            "observacion": ""
+        }
+    ]
+}

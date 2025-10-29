@@ -1,0 +1,55 @@
+[
+    {
+        "usuario": "egreve",
+        "contrasena": "1234",
+        "rol": "admin",
+        "frase_bienvenida": "Bienvenido/a, egreve"
+    },
+    {
+        "usuario": "fgadea",
+        "contrasena": "1234",
+        "rol": "limitado"
+    },
+    {
+        "usuario": "123",
+        "contrasena": "123",
+        "rol": "limitado"
+    },
+    {
+        "usuario": "ertgrave",
+        "contrasena": "123",
+        "rol": "limitado"
+    },
+    {
+        "usuario": "nabellon",
+        "contrasena": "1234",
+        "rol": "limitado"
+    },
+    {
+        "usuario": "jgreve",
+        "contrasena": "1234",
+        "rol": "limitado"
+    },
+    {
+        "usuario": "egrave",
+        "contrasena": "1234",
+        "rol": "limitado"
+    },
+    {
+        "usuario": "asd",
+        "contrasena": "123",
+        "rol": "limitado"
+    },
+    {
+        "usuario": "admin",
+        "contrasena": "rt2025",
+        "rol": "admin",
+        "frase_bienvenida": "Bienvenidos"
+    },
+    {
+        "usuario": "MILHOVER",
+        "contrasena": "Milhover2025",
+        "rol": "limitado",
+        "frase_bienvenida": "Bienvenido Nestor!"
+    }
+]

@@ -1,0 +1,83 @@
+[
+    {
+        "GRUPO": "COLLARES",
+        "PROVEEDOR": "ALIBABA",
+        "CODIGO": 20776,
+        "DESCRIPCION": "IV MICROCHIP X UNIDAD",
+        "COSTO": 500,
+        "PORCENTAJE": 1,
+        "PRECIO_FINAL": 1000
+    },
+    {
+        "GRUPO": "COLLARES",
+        "PROVEEDOR": "ALIBABA",
+        "CODIGO": 4799,
+        "DESCRIPCION": "APTO  X160 COMPR",
+        "COSTO": 600,
+        "PORCENTAJE": 0.2,
+        "PRECIO_FINAL": 720
+    },
+    {
+        "GRUPO": "COLLARES",
+        "PROVEEDOR": "ALIBABA",
+        "CODIGO": 409,
+        "DESCRIPCION": "APTO POLVO X150GRS.",
+        "COSTO": 700,
+        "PORCENTAJE": 0.3,
+        "PRECIO_FINAL": 910
+    },
+    {
+        "GRUPO": "FARMACIA",
+        "PROVEEDOR": "TOTO",
+        "CODIGO": 234,
+        "DESCRIPCION": "PIPETA 1",
+        "COSTO": 200,
+        "PORCENTAJE": 0.15,
+        "PRECIO_FINAL": 229.99999999999997
+    },
+    {
+        "GRUPO": "FARMACIA",
+        "PROVEEDOR": "NESTOR",
+        "CODIGO": 2342,
+        "DESCRIPCION": "PIPETA 2",
+        "COSTO": 500,
+        "PORCENTAJE": 0.3,
+        "PRECIO_FINAL": 650
+    },
+    {
+        "PRECIO_FINAL": 0
+    },
+    {
+        "PRECIO_FINAL": 0
+    },
+    {
+        "PRECIO_FINAL": 0
+    },
+    {
+        "PRECIO_FINAL": 0
+    },
+    {
+        "PRECIO_FINAL": 0
+    },
+    {
+        "PRECIO_FINAL": 0
+    },
+    {
+        "PRECIO_FINAL": 0
+    },
+    {
+        "PRECIO_FINAL": 0
+    },
+    {
+        "PRECIO_FINAL": 0
+    },
+    {
+        "PRECIO_FINAL": 0
+    },
+    {
+        "PRECIO_FINAL": 0
+    },
+    {
+        "PRECIO_FINAL": 0
+    }
+]

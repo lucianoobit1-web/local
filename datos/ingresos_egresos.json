@@ -1,0 +1,44 @@
+[
+    {
+        "razon_social": "asdasd",
+        "concepto_tipo": "Egreso",
+        "importe": "1400.00",
+        "fecha": "29/06/2025",
+        "id": "e34693aa-7c4c-4286-bc26-386d09e796de"
+    },
+    {
+        "razon_social": "aweq",
+        "concepto_tipo": "Ingreso",
+        "importe": "122.00",
+        "fecha": "29/06/2025",
+        "id": "05d7e426-4b3f-477a-96f5-6267ac246eee"
+    },
+    {
+        "razon_social": "qweq",
+        "concepto_tipo": "Ingreso",
+        "importe": "1231.00",
+        "fecha": "29/06/2025",
+        "id": "10ac6cbe-5c45-49b0-b308-345e1dac228f"
+    },
+    {
+        "razon_social": "qweqw",
+        "concepto_tipo": "Ingreso",
+        "importe": "23423.00",
+        "fecha": "29/06/2025",
+        "id": "c3452132-abfb-4fe7-904a-e43a9b91281e"
+    },
+    {
+        "razon_social": "qweq",
+        "concepto_tipo": "Ingreso",
+        "importe": "242.00",
+        "fecha": "29/06/2025",
+        "id": "3716d459-3c0a-408a-9176-f37c772d3a49"
+    },
+    {
+        "razon_social": "DORINKA",
+        "concepto_tipo": "Ingreso",
+        "importe": "15000000.00",
+        "fecha": "29/06/2025",
+        "id": "6cff5d99-49a9-4160-8775-e443f1abcd8a"
+    }
+]

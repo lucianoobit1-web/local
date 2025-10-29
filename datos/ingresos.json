@@ -1,0 +1,85 @@
+[
+    {
+        "tipo": "ingreso",
+        "importe": null,
+        "concepto": "Venta Pedido #b5f9a",
+        "fecha": "2025-08-16",
+        "origen_id": "b5f9a397-59c4-42d1-8d20-cffc07b422c7",
+        "origen_tipo": "pedido",
+        "id": "919c64fd-54cd-43e7-bc4b-1967c7edfd2c"
+    },
+    {
+        "tipo": "ingreso",
+        "importe": null,
+        "concepto": "Venta Pedido #7e47c",
+        "fecha": "2025-08-16",
+        "origen_id": "7e47c835-77b4-4498-914a-29991e3cb6ae",
+        "origen_tipo": "pedido",
+        "id": "a05cb15b-0619-4d9b-a5d1-b1f66a6498f9"
+    },
+    {
+        "tipo": "ingreso",
+        "importe": null,
+        "concepto": "Venta Pedido #220b1",
+        "fecha": "2025-08-16",
+        "origen_id": "220b171c-39c6-442e-9928-3b96cb91d383",
+        "origen_tipo": "pedido",
+        "id": "471d2dbf-e3cd-4e99-a669-8a15163b8427"
+    },
+    {
+        "tipo": "egreso",
+        "importe": 121284,
+        "concepto": "DESCUENTOS RAPPI",
+        "fecha": "2025-08-24",
+        "id": "82f49c07-8a95-42ff-8e07-b247940507e3"
+    },
+    {
+        "tipo": "egreso",
+        "importe": 6350,
+        "concepto": "DESCUENTO A BRYAN - SIN PAPAS",
+        "fecha": "2025-08-31",
+        "id": "702053d7-0ed2-49d5-be1a-96e39d0662dc"
+    },
+    {
+        "tipo": "egreso",
+        "importe": 1976,
+        "concepto": "DESCUENTO RAPPI",
+        "fecha": "2025-08-31",
+        "id": "c694b5ea-6884-40b0-95d6-5824f2de686d"
+    },
+    {
+        "tipo": "ingreso",
+        "importe": 7608.5,
+        "concepto": "RAPPI SIN DESCUENTO",
+        "fecha": "2025-08-31",
+        "id": "9f75c524-a6a6-46e9-866c-9afa3724887a"
+    },
+    {
+        "tipo": "ingreso",
+        "importe": 284000,
+        "concepto": "APORTE FACU",
+        "fecha": "2025-09-02",
+        "id": "2fb241ae-2eb1-444e-89bd-0ed5fe02a0d4"
+    },
+    {
+        "tipo": "ingreso",
+        "importe": 298407,
+        "concepto": "APORTE NAHUE",
+        "fecha": "2025-09-02",
+        "id": "1b5c8a5f-943e-49c0-a22f-8adedda1406a"
+    },
+    {
+        "tipo": "egreso",
+        "importe": 3175,
+        "concepto": "DESCUENTO BRYAN",
+        "fecha": "2025-09-09",
+        "id": "2c0543b4-4587-436b-90c6-8c57ffde3b0c"
+    },
+    {
+        "tipo": "ingreso",
+        "importe": 10000,
+        "concepto": "ONION DE BRA",
+        "fecha": "2025-09-16",
+        "id": "a319442d-3ff7-4d36-96ba-877cc51968d6"
+    }
+]
