@@ -649,6 +649,8 @@ def save_proveedores():
     return jsonify({"message": "Datos de proveedores guardados exitosamente."}), 200
 
 if __name__ == '__main__':
+    import os
     initialize_data()
-    print(f"Servidor Flask iniciado en http://127.0.0.1:5000")
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Usa el puerto asignado por Railway
+    print(f"Servidor Flask iniciado en http://0.0.0.0:{port}")
+    app.run(host="0.0.0.0", port=port)
