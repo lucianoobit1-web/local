@@ -4,15 +4,15 @@ import datetime
 import uuid
 import pandas as pd
 from dateutil.relativedelta import relativedelta
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static")
 CORS(app)
 
 @app.route("/")
-def home():
-    return jsonify({"status": "Servidor activo"}), 200
+def serve_html():
+    return send_from_directory(app.static_folder, "milhover_pet.html")
 
 @app.route("/ping")
 def ping():
