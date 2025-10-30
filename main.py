@@ -648,16 +648,17 @@ def save_proveedores():
     write_data(PROVEEDORES_FILE, data)
     return jsonify({"message": "Datos de proveedores guardados exitosamente."}), 200
 
+@app.route("/ping")
+def ping():
+    return jsonify({"status": "pong"}), 200
+
 if __name__ == "__main__":
     import os
 
-    # Asegura que la carpeta de datos exista y esté inicializada
     ensure_data_dir()
     initialize_data()
 
-    # Usa el puerto asignado por el entorno o 5000 por defecto
     port = int(os.environ.get("PORT", 5000))
     print(f"Servidor Flask iniciado en http://0.0.0.0:{port}")
-
-    # Ejecuta el servidor Flask
     app.run(host="0.0.0.0", port=port)
+
