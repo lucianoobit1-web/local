@@ -10,13 +10,6 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-try:
-    ensure_data_dir()
-    initialize_data()
-    print("✅ Inicialización completada")
-except Exception as e:
-    print(f"❌ Error en inicialización: {e}")
-
 # Endpoint raíz para verificar que el servidor responde
 @app.route("/")
 def home():
