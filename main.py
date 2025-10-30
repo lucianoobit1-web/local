@@ -10,15 +10,33 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# Endpoint raíz para verificar que el servidor responde
 @app.route("/")
 def home():
     return jsonify({"status": "Servidor activo"}), 200
 
-# Endpoint de prueba
 @app.route("/ping")
 def ping():
     return jsonify({"status": "pong"}), 200
+
+# Inicialización protegida
+def ensure_data_dir():
+    print("✅ ensure_data_dir ejecutado")
+
+def initialize_data():
+    print("✅ initialize_data ejecutado")
+
+try:
+    ensure_data_dir()
+    initialize_data()
+    print("✅ Inicialización completada")
+except Exception as e:
+    print(f"❌ Error en inicialización: {e}")
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    print(f"Servidor Flask iniciado en http://0.0.0.0:{port}")
+    app.run(host="0.0.0.0", port=port)
+
 
 
 # Define la carpeta donde se guardarán los datos
